@@ -15,6 +15,7 @@ const Navbar: React.FC = () => {
     { to: '/properties?listingType=sell', label: 'Vender' },
     { to: '/properties?listingType=rent', label: 'Arrendar' },
     { to: '/publish', label: 'Publicar' },
+    { to: '/agents', label: 'Agentes' }, // 🔹 nuevo tab
   ];
 
   return (
@@ -57,7 +58,7 @@ const Navbar: React.FC = () => {
             <ModeToggle />
             <Button variant="default" className="ml-2 hidden md:flex">
               <User className="mr-2 h-4 w-4" />
-              Sign In
+              Iniciar sesión
             </Button>
             {/* Hamburguesa mobile */}
             <Button
@@ -103,7 +104,7 @@ const Navbar: React.FC = () => {
             ))}
             <Button variant="default" className="mt-4 w-full">
               <User className="mr-2 h-4 w-4" />
-              Sign In
+              Iniciar sesión
             </Button>
           </div>
         </div>

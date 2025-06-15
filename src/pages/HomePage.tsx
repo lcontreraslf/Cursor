@@ -5,7 +5,7 @@ import HeroSearch from '../components/ui/hero-search';
 import PropertyCard from '../components/ui/property-card';
 import HowItWorks from '../components/ui/how-it-works';
 import { Button } from '../components/ui/button';
-import { getFeaturedProperties } from '../data/properties'; // Asegúrate de que esta importación sea correcta
+import { getFeaturedProperties } from '../data/properties';
 import { type Property } from '../types';
 import { Buildings, ArrowRight } from '@phosphor-icons/react';
 import { Link } from 'react-router-dom';
@@ -16,12 +16,10 @@ const HomePage: React.FC = () => {
   const [featuredProperties, setFeaturedProperties] = useState<Property[]>([]);
 
   useEffect(() => {
-    // Get featured properties from data
-    const properties = getFeaturedProperties(6); // <-- ¡CAMBIO AQUÍ! De 4 a 6
+    const properties = getFeaturedProperties(6);
     setFeaturedProperties(properties);
-  }, []); // El array de dependencias vacío significa que se ejecuta una sola vez al montar
+  }, []);
 
-  // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -42,9 +40,8 @@ const HomePage: React.FC = () => {
       <main className="flex-grow">
         {/* Hero Section with Search */}
         <HeroSearch
-          // backgroundImage="https://placehold.co/1920x1080/png?text=Real+Estate+Hero+Background" // Esta línea se eliminó en interacciones anteriores si usas la imagen local
-          title="Find Your Perfect Property"
-          subtitle="Search from thousands of homes, apartments, and luxury properties across the country"
+          title="Encuentra la Propiedad Perfecta"
+          subtitle="Busca entre miles de casas, departamentos y propiedades de lujo en todo el país"
         />
 
         {/* Featured Properties Section */}
@@ -52,14 +49,14 @@ const HomePage: React.FC = () => {
           <div className="container mx-auto px-4">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
               <div>
-                <h2 className="text-3xl font-bold mb-2">Featured Properties</h2>
+                <h2 className="text-3xl font-bold mb-2">Propiedades Destacadas</h2>
                 <p className="text-gray-600 dark:text-gray-400 max-w-2xl">
-                  Discover our handpicked selection of properties that stand out for their quality, location, and value.
+                  Descubre nuestra selección destacada de propiedades que se destacan por su calidad, ubicación y valor.
                 </p>
               </div>
               <Link to="/properties" className="mt-4 md:mt-0">
                 <Button variant="outline" className="flex items-center gap-2">
-                  View All <ArrowRight size={18} />
+                  Ver todas <ArrowRight size={18} />
                 </Button>
               </Link>
             </div>
@@ -80,8 +77,8 @@ const HomePage: React.FC = () => {
               {featuredProperties.length === 0 && (
                 <div className="col-span-3 py-20 text-center">
                   <Buildings size={48} className="mx-auto text-gray-400 mb-4" />
-                  <h3 className="text-xl font-medium">No featured properties available</h3>
-                  <p className="text-gray-500 mt-2">Check back later for new listings</p>
+                  <h3 className="text-xl font-medium">No hay propiedades destacadas disponibles</h3>
+                  <p className="text-gray-500 mt-2">Vuelve más tarde para ver nuevos listados</p>
                 </div>
               )}
             </motion.div>
@@ -94,17 +91,17 @@ const HomePage: React.FC = () => {
         {/* Call to Action Section */}
         <section className="py-16 bg-primary text-white">
           <div className="container mx-auto px-4 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Find Your Dream Home?</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">¿Listo para encontrar tu hogar ideal?</h2>
             <p className="text-xl opacity-90 max-w-2xl mx-auto mb-8">
-              Start your search today and discover the perfect property that meets all your needs.
+              Comienza tu búsqueda hoy mismo y descubre la propiedad perfecta que se ajuste a tus necesidades.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/properties?listingType=sale">
-                <Button variant="secondary" size="lg">Browse Properties for Sale</Button>
+                <Button variant="secondary" size="lg">Explorar propiedades en venta</Button>
               </Link>
               <Link to="/properties?listingType=rent">
                 <Button variant="outline" size="lg" className="bg-white/10 hover:bg-white/20 text-white border-white/30">
-                  Find Rentals
+                  Buscar propiedades en arriendo
                 </Button>
               </Link>
             </div>
