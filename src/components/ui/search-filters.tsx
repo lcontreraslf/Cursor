@@ -43,19 +43,16 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({ variant = 'inline' }) => 
       )}
     >
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
-        {/* Location */}
         <div className="relative">
           <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={20} />
           <input
             type="text"
-            placeholder="City or Neighborhood"
+            placeholder="Ciudad o barrio"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
             className={inputBaseStyle}
           />
         </div>
-
-        {/* Property Type */}
         <div className="relative">
           <HouseLine className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={20} />
           <select
@@ -63,14 +60,12 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({ variant = 'inline' }) => 
             onChange={(e) => setPropertyType(e.target.value)}
             className={inputBaseStyle}
           >
-            <option value="">Property Type</option>
-            <option value="house">House</option>
-            <option value="apartment">Apartment</option>
-            <option value="studio">Studio</option>
+            <option value="">Tipo de propiedad</option>
+            <option value="house">Casa</option>
+            <option value="apartment">Departamento</option>
+            <option value="studio">Estudio</option>
           </select>
         </div>
-
-        {/* Price Range */}
         <div className="relative">
           <CurrencyDollar className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={20} />
           <select
@@ -78,16 +73,14 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({ variant = 'inline' }) => 
             onChange={(e) => setPriceRange(e.target.value)}
             className={inputBaseStyle}
           >
-            <option value="">Price Range (UF)</option>
+            <option value="">Rango de precio (UF)</option>
             <option value="0-5000">UF 0 - 5.000</option>
             <option value="5000-10000">UF 5.000 - 10.000</option>
             <option value="10000-15000">UF 10.000 - 15.000</option>
             <option value="15000-20000">UF 15.000 - 20.000</option>
-            <option value="20000+">UF 20.000+</option>
+            <option value="20000+">UF 20.000 o más</option>
           </select>
         </div>
-
-        {/* Size Range */}
         <div className="relative">
           <Ruler className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={20} />
           <select
@@ -95,7 +88,7 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({ variant = 'inline' }) => 
             onChange={(e) => setSizeRange(e.target.value)}
             className={inputBaseStyle}
           >
-            <option value="">Size (m²)</option>
+            <option value="">Tamaño (m²)</option>
             <option value="any">Indiferente</option>
             <option value="0-45">Desde 0-45 m²</option>
             <option value="46-90">Desde 46-90 m²</option>
@@ -104,8 +97,6 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({ variant = 'inline' }) => 
             <option value="200+">200 m² o más</option>
           </select>
         </div>
-
-        {/* Bedrooms */}
         <div className="relative">
           <Bed className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={20} />
           <select
@@ -113,15 +104,13 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({ variant = 'inline' }) => 
             onChange={(e) => setBedrooms(e.target.value)}
             className={inputBaseStyle}
           >
-            <option value="">Bedrooms</option>
+            <option value="">Habitaciones</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
-            <option value="4+">4+</option>
+            <option value="4+">4 o más</option>
           </select>
         </div>
-
-        {/* Bathrooms */}
         <div className="relative">
           <Bathtub className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={20} />
           <select
@@ -129,22 +118,20 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({ variant = 'inline' }) => 
             onChange={(e) => setBathrooms(e.target.value)}
             className={inputBaseStyle}
           >
-            <option value="">Bathrooms</option>
+            <option value="">Baños</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
-            <option value="4+">4+</option>
+            <option value="4+">4 o más</option>
           </select>
         </div>
       </div>
-
-      {/* Search Button */}
       <div className="mt-4 flex justify-center">
         <button
           onClick={handleSearch}
-          className="flex items-center gap-2 bg-[var(--primary)] text-[var(--primary-foreground)] px-6 py-2 rounded-xl hover:opacity-90 transition"
+          className="flex items-center gap-2 bg-[var(--primary)] text-[var(--primary-foreground)] px-6 py-2 rounded-xl font-medium shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200"
         >
-          <MagnifyingGlass size={20} /> Search
+          <MagnifyingGlass size={20} /> Buscar
         </button>
       </div>
     </div>
