@@ -1,7 +1,7 @@
-// src/components/ui/hero-search.tsx
 import React from 'react';
 import { motion } from 'framer-motion';
 import SearchFilters from './search-filters';
+import { useNavigate } from 'react-router-dom';
 
 interface HeroSearchProps {
   backgroundImage?: string;
@@ -10,11 +10,17 @@ interface HeroSearchProps {
 }
 
 const HeroSearch: React.FC<HeroSearchProps> = ({
-  // ¡Aquí el cambio! Ahora apunta a public/assets/hero-background.png
   backgroundImage = '/assets/hero-background.png',
   title = 'Find Your Dream Property',
   subtitle = 'Discover the perfect home that matches your lifestyle and preferences',
 }) => {
+  const navigate = useNavigate();
+
+  const handleSearch = () => {
+    // Ya no necesita lógica específica, porque SearchFilters lo manejará con navigate internamente
+    // Pero dejamos el onSearch por si se quiere extender más adelante
+  };
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -42,14 +48,12 @@ const HeroSearch: React.FC<HeroSearchProps> = ({
         backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${backgroundImage})`
       }}
     >
-      {/* Content */}
       <motion.div
         className="container mx-auto px-4 relative z-10 text-center"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
-        {/* Text Content */}
         <motion.h1
           className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4"
           variants={itemVariants}
@@ -64,9 +68,8 @@ const HeroSearch: React.FC<HeroSearchProps> = ({
           {subtitle}
         </motion.p>
 
-        {/* Search Component */}
         <motion.div variants={itemVariants}>
-          <SearchFilters variant="hero" />
+          <SearchFilters variant="hero" onSearch={handleSearch} />
         </motion.div>
       </motion.div>
     </div>

@@ -9,12 +9,14 @@ import {
   Bathtub
 } from '@phosphor-icons/react';
 import { cn } from '@/lib/utils';
+import { useNavigate } from 'react-router-dom';
 
 interface SearchFiltersProps {
   variant?: 'hero' | 'inline';
+  onSearch?: () => void; // Nueva prop
 }
 
-const SearchFilters: React.FC<SearchFiltersProps> = ({ variant = 'inline' }) => {
+const SearchFilters: React.FC<SearchFiltersProps> = ({ variant = 'inline', onSearch }) => {
   const [location, setLocation] = useState('');
   const [propertyType, setPropertyType] = useState('');
   const [priceRange, setPriceRange] = useState('');
@@ -22,14 +24,24 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({ variant = 'inline' }) => 
   const [bedrooms, setBedrooms] = useState('');
   const [bathrooms, setBathrooms] = useState('');
 
+  const navigate = useNavigate();
+
   const handleSearch = () => {
-    console.log('🔍 Buscando propiedades con:');
-    console.log(`📍 Ubicación: ${location}`);
-    console.log(`🏠 Tipo: ${propertyType}`);
-    console.log(`💰 Precio: ${priceRange}`);
-    console.log(`📏 Tamaño: ${sizeRange}`);
-    console.log(`🛏 Habitaciones: ${bedrooms}`);
-    console.log(`🛁 Baños: ${bathrooms}`);
+    const params = new URLSearchParams();
+
+    if (location) params.set('location', location);
+    if (propertyType) params.set('propertyType', propertyType);
+    if (priceRange) {
+      const [min, max] = priceRange.split('-');
+      if (min) params.set('priceMin', min);
+      if (max) params.set('priceMax', max);
+    }
+    if (sizeRange) params.set('minArea', sizeRange);
+    if (bedrooms) params.set('bedrooms', bedrooms);
+    if (bathrooms) params.set('bathrooms', bathrooms);
+
+    navigate(`/properties?${params.toString()}`);
+    if (onSearch) onSearch();
   };
 
   const inputBaseStyle =
