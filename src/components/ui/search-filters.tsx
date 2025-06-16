@@ -8,6 +8,7 @@ import {
   Bed,
   Bathtub
 } from '@phosphor-icons/react';
+import { cn } from '@/lib/utils';
 
 interface SearchFiltersProps {
   variant?: 'hero' | 'inline';
@@ -31,40 +32,36 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({ variant = 'inline' }) => 
     console.log(`🛁 Baños: ${bathrooms}`);
   };
 
+  const inputBaseStyle =
+    'w-full pl-10 pr-4 py-2 rounded-xl border border-border bg-[var(--card)] text-[var(--foreground)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]';
+
   return (
     <div
-      className={`w-full max-w-6xl mx-auto p-4 rounded-xl shadow-lg ${
-        variant === 'hero'
-          ? 'bg-white bg-opacity-90 backdrop-blur-md'
-          : 'bg-white'
-      }`}
+      className={cn(
+        'w-full max-w-6xl mx-auto p-4 rounded-2xl shadow-md',
+        variant === 'hero' ? 'bg-white bg-opacity-90 backdrop-blur-md' : 'bg-white'
+      )}
     >
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
         {/* Location */}
         <div className="relative">
-          <MapPin
-            size={20}
-            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"
-          />
+          <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={20} />
           <input
             type="text"
             placeholder="City or Neighborhood"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
+            className={inputBaseStyle}
           />
         </div>
 
         {/* Property Type */}
         <div className="relative">
-          <HouseLine
-            size={20}
-            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"
-          />
+          <HouseLine className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={20} />
           <select
             value={propertyType}
             onChange={(e) => setPropertyType(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
+            className={inputBaseStyle}
           >
             <option value="">Property Type</option>
             <option value="house">House</option>
@@ -73,16 +70,13 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({ variant = 'inline' }) => 
           </select>
         </div>
 
-        {/* Price Range in UF */}
+        {/* Price Range */}
         <div className="relative">
-          <CurrencyDollar
-            size={20}
-            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"
-          />
+          <CurrencyDollar className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={20} />
           <select
             value={priceRange}
             onChange={(e) => setPriceRange(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
+            className={inputBaseStyle}
           >
             <option value="">Price Range (UF)</option>
             <option value="0-5000">UF 0 - 5.000</option>
@@ -95,14 +89,11 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({ variant = 'inline' }) => 
 
         {/* Size Range */}
         <div className="relative">
-          <Ruler
-            size={20}
-            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"
-          />
+          <Ruler className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={20} />
           <select
             value={sizeRange}
             onChange={(e) => setSizeRange(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
+            className={inputBaseStyle}
           >
             <option value="">Size (m²)</option>
             <option value="any">Indiferente</option>
@@ -116,14 +107,11 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({ variant = 'inline' }) => 
 
         {/* Bedrooms */}
         <div className="relative">
-          <Bed
-            size={20}
-            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"
-          />
+          <Bed className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={20} />
           <select
             value={bedrooms}
             onChange={(e) => setBedrooms(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
+            className={inputBaseStyle}
           >
             <option value="">Bedrooms</option>
             <option value="1">1</option>
@@ -135,14 +123,11 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({ variant = 'inline' }) => 
 
         {/* Bathrooms */}
         <div className="relative">
-          <Bathtub
-            size={20}
-            className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500"
-          />
+          <Bathtub className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={20} />
           <select
             value={bathrooms}
             onChange={(e) => setBathrooms(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary"
+            className={inputBaseStyle}
           >
             <option value="">Bathrooms</option>
             <option value="1">1</option>
@@ -157,7 +142,7 @@ const SearchFilters: React.FC<SearchFiltersProps> = ({ variant = 'inline' }) => 
       <div className="mt-4 flex justify-center">
         <button
           onClick={handleSearch}
-          className="flex items-center gap-2 bg-black text-white px-6 py-2 rounded-md hover:bg-gray-800 transition"
+          className="flex items-center gap-2 bg-[var(--primary)] text-[var(--primary-foreground)] px-6 py-2 rounded-xl hover:opacity-90 transition"
         >
           <MagnifyingGlass size={20} /> Search
         </button>
