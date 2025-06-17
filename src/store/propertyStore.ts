@@ -1,5 +1,12 @@
+// src/store/PropertyStore.ts
 import { create } from 'zustand';
-import { type PropertyFilters, type ListingType, type PropertyType, type Property } from '../types';
+import {
+  type PropertyFilters,
+  type ListingType,
+  type PropertyType,
+  type Property
+} from '../types';
+import { filterProperties } from '../data/properties'; // Importar desde el archivo real
 
 export const PROPERTIES_PER_PAGE = 12;
 
@@ -49,39 +56,11 @@ export const usePropertyStore = create<PropertyStore>((set, get) => ({
   },
 
   fetchProperties: () => {
-    const fakeProperties: Property[] = [
-      {
-        id: '1',
-        title: 'Moderno departamento en Las Condes',
-        price: 9500,
-        listingType: 'sale',
-        images: ['https://placehold.co/600x400'],
-        address: { city: 'Santiago', state: 'RM' },
-        features: { bedrooms: 3, bathrooms: 2, area: 120 },
-      },
-      {
-        id: '2',
-        title: 'Casa familiar en Chicureo con amplio jardín',
-        price: 15000,
-        listingType: 'sale',
-        images: ['https://placehold.co/600x400?text=Casa'],
-        address: { city: 'Colina', state: 'RM' },
-        features: { bedrooms: 4, bathrooms: 3, area: 250 },
-      },
-      {
-        id: '3',
-        title: 'Estudio amoblado en Ñuñoa',
-        price: 4500,
-        listingType: 'rent',
-        images: [],
-        address: { city: 'Ñuñoa', state: 'RM' },
-        features: { bedrooms: 1, bathrooms: 1, area: 35 },
-      },
-    ];
-
+    const { filters } = get();
+    const filtered = filterProperties(filters);
     set({
-      properties: fakeProperties,
-      totalProperties: fakeProperties.length,
+      properties: filtered,
+      totalProperties: filtered.length,
     });
   },
 
@@ -106,6 +85,7 @@ export const usePropertyStore = create<PropertyStore>((set, get) => ({
     })),
 }));
 
+// Conversion helpers
 export const convertSearchParamsToFilters = (searchParams: URLSearchParams): Partial<PropertyFilters> => {
   const filters: Partial<PropertyFilters> = {};
   const listingType = searchParams.get('listingType');
