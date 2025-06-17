@@ -1,4 +1,3 @@
-// src/pages/PropertiesPage.tsx
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Container } from '../components/ui/container';
@@ -6,14 +5,28 @@ import PropertyGrid from '../components/ui/property-grid';
 import { Badge } from '../components/ui/badge';
 import { Button } from '../components/ui/button';
 import { Separator } from '../components/ui/separator';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../components/ui/select';
 import FilterDrawerButton from '../components/ui/filter-drawer-button';
 import MapViewToggle from '../components/ui/map-view-toggle';
 import { ToggleGroup, ToggleGroupItem } from '../components/ui/toggle-group';
 import MapView from '../components/ui/map-view';
-import { usePropertyStore, convertSearchParamsToFilters, PROPERTIES_PER_PAGE } from '../store/propertyStore';
+import {
+  usePropertyStore,
+  convertSearchParamsToFilters,
+  PROPERTIES_PER_PAGE,
+} from '../store/propertyStore';
 import { type Property } from '../types';
-import { FunnelSimple as Filter, SortAscending, SortDescending } from '@phosphor-icons/react';
+import {
+  FunnelSimple as Filter,
+  SortAscending,
+  SortDescending,
+} from '@phosphor-icons/react';
 import { cn } from '../lib/utils';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
@@ -26,7 +39,7 @@ const PropertiesPage: React.FC = () => {
     currentPage,
     setPage,
     fetchProperties,
-    setFilters
+    setFilters,
   } = usePropertyStore();
 
   const [isMapView, setIsMapView] = useState(true);
@@ -67,30 +80,28 @@ const PropertiesPage: React.FC = () => {
     if (filters.priceRange?.min || filters.priceRange?.max) count++;
     if (filters.bedrooms) count++;
     if (filters.bathrooms) count++;
-    if (filters.amenities && filters.amenities.length > 0) {
-      count += filters.amenities.length;
-    }
+    if (filters.amenities?.length) count += filters.amenities.length;
     return count;
   };
 
   const getSortedProperties = () => {
     if (!properties) return [];
 
-    const sortedProperties = [...properties];
+    const sorted = [...properties];
 
     if (sortOption === 'price') {
-      sortedProperties.sort((a, b) => {
-        return sortDirection === 'asc' ? a.price - b.price : b.price - a.price;
-      });
+      sorted.sort((a, b) =>
+        sortDirection === 'asc' ? a.price - b.price : b.price - a.price
+      );
     } else if (sortOption === 'date') {
-      sortedProperties.sort((a, b) => {
+      sorted.sort((a, b) => {
         const dateA = a.listedDate ? new Date(a.listedDate).getTime() : 0;
         const dateB = b.listedDate ? new Date(b.listedDate).getTime() : 0;
         return sortDirection === 'asc' ? dateA - dateB : dateB - dateA;
       });
     }
 
-    return sortedProperties;
+    return sorted;
   };
 
   const sortedProperties = getSortedProperties();
@@ -105,7 +116,8 @@ const PropertiesPage: React.FC = () => {
 
       <main className="flex-grow">
         <Container className="py-8">
-          <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
+          {/* Header: Filtros y controles */}
+          <div className="flex flex-wrap items-center justify-between gap-3 w-full mb-4">
             <div className="flex items-center gap-2">
               <Badge variant="outline" className="px-2 py-1">
                 {totalProperties} resultados
@@ -117,52 +129,63 @@ const PropertiesPage: React.FC = () => {
               )}
             </div>
 
-            <div className="flex items-center gap-2 ml-auto">
+            <div className="flex flex-wrap items-center justify-between gap-3 w-full lg:justify-end">
+              <div className="flex flex-wrap items-center gap-3">
+                <FilterDrawerButton>
+                  <Filter size={20} />
+                  <span className="ml-1">Filtros</span>
+                  {getActiveFiltersCount() > 0 && (
+                    <Badge className="ml-2" variant="secondary">
+                      {getActiveFiltersCount()}
+                    </Badge>
+                  )}
+                </FilterDrawerButton>
+
+                <div className="flex items-center gap-2">
+                  <span className="text-sm text-muted-foreground">Ordenar por:</span>
+                  <div className="w-[140px]">
+                    <Select value={sortOption} onValueChange={setSortOption}>
+                      <SelectTrigger className="h-9 text-sm">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="relevance">Relevancia</SelectItem>
+                        <SelectItem value="price">Precio</SelectItem>
+                        <SelectItem value="date">Fecha</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={toggleSortDirection}
+                    className={cn(
+                      sortOption === 'relevance' && 'opacity-50 cursor-not-allowed'
+                    )}
+                    disabled={sortOption === 'relevance'}
+                  >
+                    {sortDirection === 'asc' ? (
+                      <SortAscending size={20} />
+                    ) : (
+                      <SortDescending size={20} />
+                    )}
+                  </Button>
+                </div>
+              </div>
+
               <MapViewToggle
                 isMapView={isMapView}
                 onToggle={() => setIsMapView(!isMapView)}
               />
-              <FilterDrawerButton>
-                <Filter size={20} className="mr-2" />
-                <span>Filtros</span>
-                {getActiveFiltersCount() > 0 && (
-                  <Badge className="ml-2" variant="secondary">
-                    {getActiveFiltersCount()}
-                  </Badge>
-                )}
-              </FilterDrawerButton>
-              <div className="w-[160px]">
-                <Select value={sortOption} onValueChange={setSortOption}>
-                  <SelectTrigger className="h-10">
-                    <SelectValue placeholder="Ordenar por" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="relevance">Relevancia</SelectItem>
-                    <SelectItem value="price">Precio</SelectItem>
-                    <SelectItem value="date">Fecha</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={toggleSortDirection}
-                className={cn(sortOption === 'relevance' && 'opacity-50 cursor-not-allowed')}
-                disabled={sortOption === 'relevance'}
-              >
-                {sortDirection === 'asc' ? <SortAscending size={20} /> : <SortDescending size={20} />}
-              </Button>
             </div>
           </div>
 
           <Separator className="mb-4" />
 
-          <div className={cn(
-            'flex flex-col gap-4 lg:flex-row',
-            'h-[calc(100vh-220px)]'
-          )}>
+          {/* Vista de Mapa + Grilla lateral */}
+          <div className="flex flex-col gap-4 lg:flex-row">
             {isMapView && (
-              <div className="lg:w-3/5 h-[400px] lg:h-full rounded-lg overflow-hidden shadow bg-muted">
+              <div className="lg:w-3/5 h-[400px] lg:h-[calc(100vh-280px)] rounded-lg overflow-hidden shadow bg-muted">
                 <MapView
                   properties={sortedProperties}
                   selectedProperty={selectedProperty}
@@ -171,7 +194,7 @@ const PropertiesPage: React.FC = () => {
               </div>
             )}
 
-            <div className="lg:w-2/5 h-full overflow-y-auto px-1 flex flex-col gap-4">
+            <div className="lg:w-2/5 max-h-[calc(100vh-280px)] overflow-y-auto px-1">
               {totalProperties === 0 ? (
                 <div className="py-20 text-center text-muted-foreground">
                   <p className="text-xl font-medium mb-2">No se encontraron propiedades.</p>
@@ -181,11 +204,13 @@ const PropertiesPage: React.FC = () => {
                 <PropertyGrid
                   properties={sortedProperties}
                   onPropertySelect={handlePropertySelect}
+                  compact
                 />
               )}
             </div>
           </div>
 
+          {/* Paginación */}
           {totalProperties > PROPERTIES_PER_PAGE && (
             <div className="mt-8 flex justify-center">
               <ToggleGroup
@@ -195,7 +220,9 @@ const PropertiesPage: React.FC = () => {
                   if (value) setPage(parseInt(value));
                 }}
               >
-                {Array.from({ length: Math.ceil(totalProperties / PROPERTIES_PER_PAGE) }).map((_, i) => (
+                {Array.from({
+                  length: Math.ceil(totalProperties / PROPERTIES_PER_PAGE),
+                }).map((_, i) => (
                   <ToggleGroupItem key={i} value={`${i + 1}`}>
                     {i + 1}
                   </ToggleGroupItem>

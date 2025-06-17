@@ -1,36 +1,28 @@
 // src/pages/HomePage.tsx
-import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
-import HeroSearch from '../components/ui/hero-search';
-import PropertyCard from '../components/ui/property-card';
-import HowItWorks from '../components/ui/how-it-works';
-import { Button } from '../components/ui/button';
-import { getFeaturedProperties } from '../data/properties';
-import { type Property } from '../types';
-import { Buildings, ArrowRight } from '@phosphor-icons/react';
-import { Link } from 'react-router-dom';
-import Navbar from '../components/layout/Navbar';
-import Footer from '../components/layout/Footer';
+import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import HeroSearch from "../components/ui/hero-search";
+import PropertyCard from "../components/ui/property-card";
+import HowItWorks from "../components/ui/how-it-works";
+import { Button } from "../components/ui/button";
+import { getFeaturedProperties } from "../data/properties";
+import { type Property } from "../types";
+import { Buildings, ArrowRight } from "@phosphor-icons/react";
+import { Link } from "react-router-dom";
+import Navbar from "../components/layout/Navbar";
+import Footer from "../components/layout/Footer";
 
 const HomePage: React.FC = () => {
   const [featuredProperties, setFeaturedProperties] = useState<Property[]>([]);
 
   useEffect(() => {
-    const properties = getFeaturedProperties(6);
+    const properties = getFeaturedProperties(16); // 2 filas de 8
     setFeaturedProperties(properties);
   }, []);
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.1 }
-    }
-  };
-
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   };
 
   return (
@@ -38,7 +30,6 @@ const HomePage: React.FC = () => {
       <Navbar />
 
       <main className="flex-grow">
-        {/* Hero Section with Search */}
         <HeroSearch
           title="Encuentra la Propiedad Perfecta"
           subtitle="Busca entre miles de casas, departamentos y propiedades de lujo en todo el país"
@@ -46,7 +37,7 @@ const HomePage: React.FC = () => {
 
         {/* Featured Properties Section */}
         <section className="py-16">
-          <div className="container mx-auto px-4">
+          <div className="w-full max-w-[1800px] mx-auto px-4">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
               <div>
                 <h2 className="text-3xl font-bold mb-2">Propiedades Destacadas</h2>
@@ -54,53 +45,77 @@ const HomePage: React.FC = () => {
                   Descubre nuestra selección destacada de propiedades que se destacan por su calidad, ubicación y valor.
                 </p>
               </div>
-              <Link to="/properties" className="mt-4 md:mt-0">
-                <Button variant="outline" className="flex items-center gap-2">
-                  Ver todas <ArrowRight size={18} />
+              
+            </div>
+
+            {/* Contenedor limitado a 2 filas */}
+            <div
+              className="overflow-hidden"
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+                gap: "1rem",
+                gridAutoRows: "auto",
+                maxHeight: "calc(2 * 22rem)", // Aproximadamente 2 tarjetas (ajustable según diseño)
+              }}
+            >
+              {featuredProperties.length > 0 ? (
+                featuredProperties.map((property) => (
+                  <motion.div
+                    key={property.id}
+                    variants={itemVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.1 }}
+                  >
+                    <PropertyCard property={property} />
+                  </motion.div>
+                ))
+              ) : (
+                <div className="col-span-full py-20 text-center">
+                  <Buildings size={48} className="mx-auto text-gray-400 mb-4" />
+                  <h3 className="text-xl font-medium">
+                    No hay propiedades destacadas disponibles
+                  </h3>
+                  <p className="text-gray-500 mt-2">
+                    Vuelve más tarde para ver nuevos listados
+                  </p>
+                </div>
+              )}
+            </div>
+
+            <div className="mt-8 text-center">
+              <Link to="/featured-properties">
+                <Button size="lg" className="mx-auto">
+                  Ver todas las propiedades destacadas
                 </Button>
               </Link>
             </div>
-
-            <motion.div
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.1 }}
-            >
-              {featuredProperties.map((property) => (
-                <motion.div key={property.id} variants={itemVariants}>
-                  <PropertyCard property={property} />
-                </motion.div>
-              ))}
-
-              {featuredProperties.length === 0 && (
-                <div className="col-span-3 py-20 text-center">
-                  <Buildings size={48} className="mx-auto text-gray-400 mb-4" />
-                  <h3 className="text-xl font-medium">No hay propiedades destacadas disponibles</h3>
-                  <p className="text-gray-500 mt-2">Vuelve más tarde para ver nuevos listados</p>
-                </div>
-              )}
-            </motion.div>
           </div>
         </section>
 
-        {/* How It Works Section */}
         <HowItWorks />
 
-        {/* Call to Action Section */}
         <section className="py-16 bg-primary text-white">
           <div className="container mx-auto px-4 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">¿Listo para encontrar tu hogar ideal?</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              ¿Listo para encontrar tu hogar ideal?
+            </h2>
             <p className="text-xl opacity-90 max-w-2xl mx-auto mb-8">
               Comienza tu búsqueda hoy mismo y descubre la propiedad perfecta que se ajuste a tus necesidades.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/properties?listingType=sale">
-                <Button variant="secondary" size="lg">Explorar propiedades en venta</Button>
+                <Button variant="secondary" size="lg">
+                  Explorar propiedades en venta
+                </Button>
               </Link>
               <Link to="/properties?listingType=rent">
-                <Button variant="outline" size="lg" className="bg-white/10 hover:bg-white/20 text-white border-white/30">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="bg-white/10 hover:bg-white/20 text-white border-white/30"
+                >
                   Buscar propiedades en arriendo
                 </Button>
               </Link>
