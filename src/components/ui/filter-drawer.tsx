@@ -16,7 +16,7 @@ interface FilterDrawerProps {
 
 const FilterDrawer: React.FC<FilterDrawerProps> = ({ isOpen, onClose }) => {
   const { filters, updateFilters, resetFilters } = usePropertyStore();
-  
+
   const amenities = [
     { id: 'pool', label: 'Swimming Pool' },
     { id: 'gym', label: 'Fitness Center' },
@@ -27,43 +27,38 @@ const FilterDrawer: React.FC<FilterDrawerProps> = ({ isOpen, onClose }) => {
     { id: 'laundry', label: 'Laundry' },
     { id: 'patio', label: 'Patio/Balcony' },
   ];
-  
+
   const handleReset = () => {
     resetFilters();
   };
-  
+
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent className="w-[300px] sm:w-[450px] p-0">
         <SheetHeader className="p-6 pb-2">
-          <div className="flex items-center justify-between">
-            <SheetTitle>Filters</SheetTitle>
-            <Button variant="ghost" size="icon" onClick={onClose}>
-              <X size={20} />
-            </Button>
-          </div>
+          <SheetTitle>Filters</SheetTitle>
           <SheetDescription>
             Refine your property search
           </SheetDescription>
         </SheetHeader>
-        
+
         <Separator />
-        
+
         <ScrollArea className="h-[calc(100vh-120px)] p-6">
           <div className="space-y-6">
             {/* Price Range */}
             <PriceRangeFilter
               value={[filters.minPrice || 0, filters.maxPrice || 1000000]}
               onChange={(values) => {
-                updateFilters({ 
-                  minPrice: values[0], 
-                  maxPrice: values[1] 
+                updateFilters({
+                  minPrice: values[0],
+                  maxPrice: values[1]
                 });
               }}
             />
-            
+
             <Separator />
-            
+
             {/* Room Filters */}
             <div className="space-y-4">
               <h3 className="font-medium">Rooms</h3>
@@ -80,9 +75,9 @@ const FilterDrawer: React.FC<FilterDrawerProps> = ({ isOpen, onClose }) => {
                 />
               </div>
             </div>
-            
+
             <Separator />
-            
+
             {/* Amenities */}
             <div className="space-y-4">
               <h3 className="font-medium">Amenities</h3>
@@ -106,7 +101,7 @@ const FilterDrawer: React.FC<FilterDrawerProps> = ({ isOpen, onClose }) => {
               </div>
             </div>
           </div>
-          
+
           <div className="flex justify-between pt-6">
             <Button variant="outline" onClick={handleReset}>
               Reset All

@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Container } from '../components/ui/container';
-import SearchFilters from '../components/ui/search-filters';
 import PropertyGrid from '../components/ui/property-grid';
 import { Badge } from '../components/ui/badge';
 import { Button } from '../components/ui/button';
@@ -106,8 +105,6 @@ const PropertiesPage: React.FC = () => {
 
       <main className="flex-grow">
         <Container className="py-8">
-          <SearchFilters onSearch={() => setPage(1)} />
-
           <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
             <div className="flex items-center gap-2">
               <Badge variant="outline" className="px-2 py-1">
