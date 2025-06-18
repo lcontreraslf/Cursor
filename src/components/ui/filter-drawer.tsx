@@ -1,31 +1,36 @@
 import React from 'react';
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from './sheet';
 import { Button } from './button';
-import { X } from '@phosphor-icons/react';
 import { usePropertyStore } from '../../store/propertyStore';
-import { ScrollArea } from './scroll-area';
 import { Separator } from './separator';
-import PriceRangeFilter from './price-range-filter';
-import RoomFilter from './room-filter';
-import CheckboxFilter from './checkbox-filter';
+import { ToggleGroup, ToggleGroupItem } from './toggle-group';
+import { Slider } from './slider';
+import {
+  WifiHigh,
+  ThermometerCold,
+  TelevisionSimple,
+  Car,
+  SwimmingPool,
+  ShieldCheck,
+  Armchair,
+  Key,
+} from '@phosphor-icons/react';
 
 interface FilterDrawerProps {
-  isOpen: boolean;
   onClose: () => void;
 }
 
-const FilterDrawer: React.FC<FilterDrawerProps> = ({ isOpen, onClose }) => {
+const FilterDrawer: React.FC<FilterDrawerProps> = ({ onClose }) => {
   const { filters, updateFilters, resetFilters } = usePropertyStore();
 
-  const amenities = [
-    { id: 'pool', label: 'Swimming Pool' },
-    { id: 'gym', label: 'Fitness Center' },
-    { id: 'garage', label: 'Garage' },
-    { id: 'security', label: 'Security System' },
-    { id: 'airConditioning', label: 'Air Conditioning' },
-    { id: 'heating', label: 'Heating' },
-    { id: 'laundry', label: 'Laundry' },
-    { id: 'patio', label: 'Patio/Balcony' },
+  const services = [
+    { id: 'wifi', label: 'Wi-Fi', icon: <WifiHigh size={16} /> },
+    { id: 'airConditioning', label: 'Aire Acond.', icon: <ThermometerCold size={16} /> },
+    { id: 'tv', label: 'Televisor', icon: <TelevisionSimple size={16} /> },
+    { id: 'garage', label: 'Estacionamiento', icon: <Car size={16} /> },
+    { id: 'pool', label: 'Piscina', icon: <SwimmingPool size={16} /> },
+    { id: 'security', label: 'Seguridad', icon: <ShieldCheck size={16} /> },
+    { id: 'laundry', label: 'Lavandería', icon: <Armchair size={16} /> },
+    { id: 'autonomous', label: 'Autónomo', icon: <Key size={16} /> },
   ];
 
   const handleReset = () => {
@@ -33,86 +38,115 @@ const FilterDrawer: React.FC<FilterDrawerProps> = ({ isOpen, onClose }) => {
   };
 
   return (
-    <Sheet open={isOpen} onOpenChange={onClose}>
-      <SheetContent className="w-[300px] sm:w-[450px] p-0">
-        <SheetHeader className="p-6 pb-2">
-          <SheetTitle>Filters</SheetTitle>
-          <SheetDescription>
-            Refine your property search
-          </SheetDescription>
-        </SheetHeader>
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center">
+      <div className="bg-white dark:bg-background w-full max-w-md mx-auto rounded-2xl shadow-xl p-6 space-y-6">
+        <div className="space-y-1">
+          <h2 className="text-xl font-bold">Filtros</h2>
+          <p className="text-sm text-muted-foreground">
+            Refina tu búsqueda con filtros personalizados
+          </p>
+        </div>
 
         <Separator />
 
-        <ScrollArea className="h-[calc(100vh-120px)] p-6">
-          <div className="space-y-6">
-            {/* Price Range */}
-            <PriceRangeFilter
-              value={[filters.minPrice || 0, filters.maxPrice || 1000000]}
-              onChange={(values) => {
-                updateFilters({
-                  minPrice: values[0],
-                  maxPrice: values[1]
-                });
+        <div className="space-y-6 max-h-[80vh] overflow-y-auto pr-2">
+          {/* Rango de precios */}
+          <div className="space-y-3">
+            <h3 className="text-base font-semibold">Rango de Precio</h3>
+            <Slider
+              min={0}
+              max={1000000}
+              step={10000}
+              defaultValue={[filters.minPrice || 0, filters.maxPrice || 1000000]}
+              onValueCommit={([min, max]) => {
+                updateFilters({ minPrice: min, maxPrice: max });
               }}
+              className="accent-pink-500"
             />
-
-            <Separator />
-
-            {/* Room Filters */}
-            <div className="space-y-4">
-              <h3 className="font-medium">Rooms</h3>
-              <div className="grid grid-cols-2 gap-4">
-                <RoomFilter
-                  label="Bedrooms"
-                  value={filters.bedrooms || 0}
-                  onChange={(value) => updateFilters({ bedrooms: value })}
-                />
-                <RoomFilter
-                  label="Bathrooms"
-                  value={filters.bathrooms || 0}
-                  onChange={(value) => updateFilters({ bathrooms: value })}
-                />
-              </div>
+            <div className="flex justify-between text-sm text-muted-foreground">
+              <span>${filters.minPrice?.toLocaleString() || '0'}</span>
+              <span>${filters.maxPrice?.toLocaleString() || '1.000.000'}</span>
             </div>
+          </div>
 
-            <Separator />
+          {/* Habitaciones */}
+          <div className="space-y-3">
+            <h3 className="text-base font-semibold">Habitaciones</h3>
+            <ToggleGroup
+              type="single"
+              value={filters.bedrooms?.toString() || ''}
+              onValueChange={(val) => updateFilters({ bedrooms: val ? parseInt(val) : 0 })}
+              className="flex flex-wrap gap-2"
+            >
+              {[1, 2, 3, 4, 5].map((num) => (
+                <ToggleGroupItem
+                  key={num}
+                  value={num.toString()}
+                  className="px-4 py-2 rounded-full border text-sm hover:bg-primary hover:text-white transition"
+                >
+                  {num}+
+                </ToggleGroupItem>
+              ))}
+            </ToggleGroup>
+          </div>
 
-            {/* Amenities */}
-            <div className="space-y-4">
-              <h3 className="font-medium">Amenities</h3>
-              <div className="grid grid-cols-2 gap-y-2">
-                {amenities.map((amenity) => (
-                  <CheckboxFilter
-                    key={amenity.id}
-                    id={amenity.id}
-                    label={amenity.label}
-                    checked={!!filters.amenities?.[amenity.id]}
-                    onChange={(checked) => {
+          {/* Baños */}
+          <div className="space-y-3">
+            <h3 className="text-base font-semibold">Baños</h3>
+            <ToggleGroup
+              type="single"
+              value={filters.bathrooms?.toString() || ''}
+              onValueChange={(val) => updateFilters({ bathrooms: val ? parseInt(val) : 0 })}
+              className="flex flex-wrap gap-2"
+            >
+              {[1, 2, 3].map((num) => (
+                <ToggleGroupItem
+                  key={num}
+                  value={num.toString()}
+                  className="px-4 py-2 rounded-full border text-sm hover:bg-primary hover:text-white transition"
+                >
+                  {num}+
+                </ToggleGroupItem>
+              ))}
+            </ToggleGroup>
+          </div>
+
+          {/* Servicios */}
+          <div className="space-y-3">
+            <h3 className="text-base font-semibold">Servicios</h3>
+            <div className="flex flex-wrap gap-2">
+              {services.map((s) => {
+                const isSelected = filters.amenities?.[s.id];
+                return (
+                  <button
+                    key={s.id}
+                    onClick={() => {
                       updateFilters({
                         amenities: {
                           ...filters.amenities,
-                          [amenity.id]: checked
-                        }
+                          [s.id]: !isSelected,
+                        },
                       });
                     }}
-                  />
-                ))}
-              </div>
+                    className={`px-4 py-2 rounded-full text-sm border transition flex items-center gap-1
+                      ${isSelected ? 'bg-primary text-white' : 'hover:bg-muted'}`}
+                  >
+                    {s.icon} {s.label}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
-          <div className="flex justify-between pt-6">
+          <div className="flex justify-between pt-6 border-t mt-6">
             <Button variant="outline" onClick={handleReset}>
-              Reset All
+              Limpiar filtros
             </Button>
-            <Button onClick={onClose}>
-              Apply Filters
-            </Button>
+            <Button onClick={onClose}>Aplicar filtros</Button>
           </div>
-        </ScrollArea>
-      </SheetContent>
-    </Sheet>
+        </div>
+      </div>
+    </div>
   );
 };
 
