@@ -1,5 +1,5 @@
 // src/components/ui/property-card.tsx
-import React from "react";
+import React, { useState } from "react";
 import { type Property } from "../../types";
 import { CardContent } from "./card";
 import {
@@ -7,6 +7,8 @@ import {
   Bathtub,
   Ruler,
   Heart,
+  CaretLeft,
+  CaretRight,
 } from "@phosphor-icons/react";
 import { Badge } from "./badge";
 import { cn } from "../../lib/utils";
@@ -26,13 +28,25 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
   isFavorite = false,
   onFavoriteToggle,
 }) => {
+  const [imageIndex, setImageIndex] = useState(0);
+
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     onFavoriteToggle?.(property.id);
   };
 
-  const imageUrl =
-    property.images?.[0] || "/assets/placeholders/default.jpg";
+  const images = property.images?.length ? property.images : ["/assets/placeholders/default.jpg"];
+  const imageUrl = images[imageIndex];
+
+  const prevImage = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  };
+
+  const nextImage = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+  };
 
   return (
     <div
@@ -42,13 +56,12 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
       )}
       onClick={onClick}
     >
-      {/* Imagen cuadrada con esquinas redondeadas */}
       <div className="relative w-full aspect-square overflow-hidden">
         <img
           src={imageUrl}
           alt={property.title}
           loading="lazy"
-          className="w-full h-full object-cover rounded-2xl"
+          className="w-full h-full object-cover rounded-2xl transition-opacity duration-300"
         />
 
         {/* Badge */}
@@ -77,9 +90,27 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
             )}
           />
         </button>
+
+        {/* Flechas carrusel */}
+        {images.length > 1 && (
+          <>
+            <button
+              onClick={prevImage}
+              className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/80 rounded-full p-1 backdrop-blur-sm hover:bg-white opacity-0 group-hover:opacity-100 transition-opacity"
+            >
+              <CaretLeft size={18} />
+            </button>
+            <button
+              onClick={nextImage}
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/80 rounded-full p-1 backdrop-blur-sm hover:bg-white opacity-0 group-hover:opacity-100 transition-opacity"
+            >
+              <CaretRight size={18} />
+            </button>
+          </>
+        )}
+
       </div>
 
-      {/* Contenido */}
       <CardContent className="p-4 flex flex-col gap-1.5">
         <h3 className="font-semibold text-sm text-foreground line-clamp-2">
           {property.title}

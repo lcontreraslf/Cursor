@@ -1,6 +1,6 @@
 // src/data/properties.ts
 import { type Property } from '../types';
-import { type PropertyFilters } from '../types'; 
+import { type PropertyFilters } from '../types';
 
 const placeholderImages = {
   singleTestImage: '/assets/placeholders/casa-1.jpg',
@@ -38,7 +38,11 @@ const baseProperty: Omit<Property, 'id' | 'title'> = {
     yearBuilt: 2020,
   },
   amenities: ['pool', 'garden'],
-  images: [placeholderImages.singleTestImage],
+  images: [
+    '/assets/placeholders/casa-1.jpg',
+    '/assets/placeholders/casa-2.jpg',
+    '/assets/placeholders/casa-3.jpg'
+  ],
   featured: true,
   agent: {
     id: 'a1',
@@ -81,9 +85,9 @@ export const filterProperties = (filters: Partial<PropertyFilters>): Property[] 
     if (filters.location) {
       const location = filters.location.toLowerCase();
       const propertyLocation = (
-        property.address.city + ' ' + 
-        property.address.state + ' ' + 
-        property.address.country + ' ' + 
+        property.address.city + ' ' +
+        property.address.state + ' ' +
+        property.address.country + ' ' +
         property.address.zipCode
       ).toLowerCase();
       if (!propertyLocation.includes(location)) return false;
