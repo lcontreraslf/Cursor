@@ -7,17 +7,16 @@ import HowItWorks from "../components/ui/how-it-works";
 import { Button } from "../components/ui/button";
 import { getFeaturedProperties } from "../data/properties";
 import { type Property } from "../types";
-import { Buildings, ArrowRight } from "@phosphor-icons/react";
+import { Buildings } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
-import Navbar from "../components/layout/Navbar";
-import Footer from "../components/layout/Footer";
 
 const HomePage: React.FC = () => {
   const [featuredProperties, setFeaturedProperties] = useState<Property[]>([]);
 
   useEffect(() => {
-    const properties = getFeaturedProperties(16); // 2 filas de 8
-    setFeaturedProperties(properties);
+    const all = getFeaturedProperties();
+    const max = 12; // máximo 2 filas visuales
+    setFeaturedProperties(all.slice(0, max));
   }, []);
 
   const itemVariants = {
@@ -27,38 +26,28 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Navbar />
-
       <main className="flex-grow">
         <HeroSearch
           title="Encuentra la Propiedad Perfecta"
           subtitle="Busca entre miles de casas, departamentos y propiedades de lujo en todo el país"
         />
 
-        {/* Featured Properties Section */}
+        {/* Sección propiedades destacadas */}
         <section className="py-16">
           <div className="w-full max-w-[1800px] mx-auto px-4">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
               <div>
-                <h2 className="text-3xl font-bold mb-2">Propiedades Destacadas</h2>
+                <h2 className="text-3xl font-bold mb-2">
+                  Propiedades Destacadas
+                </h2>
                 <p className="text-gray-600 dark:text-gray-400 max-w-2xl">
-                  Descubre nuestra selección destacada de propiedades que se destacan por su calidad, ubicación y valor.
+                  Descubre nuestra selección destacada de propiedades que se
+                  destacan por su calidad, ubicación y valor.
                 </p>
               </div>
-              
             </div>
 
-            {/* Contenedor limitado a 2 filas */}
-            <div
-              className="overflow-hidden"
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
-                gap: "1rem",
-                gridAutoRows: "auto",
-                maxHeight: "calc(2 * 22rem)", // Aproximadamente 2 tarjetas (ajustable según diseño)
-              }}
-            >
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
               {featuredProperties.length > 0 ? (
                 featuredProperties.map((property) => (
                   <motion.div
@@ -102,7 +91,8 @@ const HomePage: React.FC = () => {
               ¿Listo para encontrar tu hogar ideal?
             </h2>
             <p className="text-xl opacity-90 max-w-2xl mx-auto mb-8">
-              Comienza tu búsqueda hoy mismo y descubre la propiedad perfecta que se ajuste a tus necesidades.
+              Comienza tu búsqueda hoy mismo y descubre la propiedad perfecta
+              que se ajuste a tus necesidades.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/properties?listingType=sale">
@@ -124,7 +114,6 @@ const HomePage: React.FC = () => {
         </section>
       </main>
 
-      <Footer />
     </div>
   );
 };

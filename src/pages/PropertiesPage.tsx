@@ -1,35 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import { Container } from '../components/ui/container';
-import PropertyGrid from '../components/ui/property-grid';
-import { Badge } from '../components/ui/badge';
-import { Button } from '../components/ui/button';
-import { Separator } from '../components/ui/separator';
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { Container } from "../components/ui/container";
+import PropertyGrid from "../components/ui/property-grid";
+import { Badge } from "../components/ui/badge";
+import { Button } from "../components/ui/button";
+import { Separator } from "../components/ui/separator";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '../components/ui/select';
-import FilterDrawerButton from '../components/ui/filter-drawer-button';
-import MapViewToggle from '../components/ui/map-view-toggle';
-import { ToggleGroup, ToggleGroupItem } from '../components/ui/toggle-group';
-import MapView from '../components/ui/map-view';
+} from "../components/ui/select";
+import FilterDrawerButton from "../components/ui/filter-drawer-button";
+import MapViewToggle from "../components/ui/map-view-toggle";
+import { ToggleGroup, ToggleGroupItem } from "../components/ui/toggle-group";
+import MapView from "../components/ui/map-view";
 import {
   usePropertyStore,
   convertSearchParamsToFilters,
   PROPERTIES_PER_PAGE,
-} from '../store/propertyStore';
-import { type Property } from '../types';
+} from "../store/propertyStore";
+import { type Property } from "../types";
 import {
   FunnelSimple as Filter,
   SortAscending,
   SortDescending,
-} from '@phosphor-icons/react';
-import { cn } from '../lib/utils';
-import Navbar from '../components/layout/Navbar';
-import Footer from '../components/layout/Footer';
+} from "@phosphor-icons/react";
+import { cn } from "../lib/utils";
 
 const PropertiesPage: React.FC = () => {
   const {
@@ -43,9 +41,11 @@ const PropertiesPage: React.FC = () => {
   } = usePropertyStore();
 
   const [isMapView, setIsMapView] = useState(true);
-  const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
-  const [sortOption, setSortOption] = useState('relevance');
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
+  const [selectedProperty, setSelectedProperty] = useState<Property | null>(
+    null
+  );
+  const [sortOption, setSortOption] = useState("relevance");
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
 
   const location = useLocation();
 
@@ -75,8 +75,8 @@ const PropertiesPage: React.FC = () => {
   const getActiveFiltersCount = () => {
     let count = 0;
     if (filters.location) count++;
-    if (filters.listingType && filters.listingType !== 'all') count++;
-    if (filters.propertyType && filters.propertyType !== 'all') count++;
+    if (filters.listingType && filters.listingType !== "all") count++;
+    if (filters.propertyType && filters.propertyType !== "all") count++;
     if (filters.priceRange?.min || filters.priceRange?.max) count++;
     if (filters.bedrooms) count++;
     if (filters.bathrooms) count++;
@@ -89,15 +89,15 @@ const PropertiesPage: React.FC = () => {
 
     const sorted = [...properties];
 
-    if (sortOption === 'price') {
+    if (sortOption === "price") {
       sorted.sort((a, b) =>
-        sortDirection === 'asc' ? a.price - b.price : b.price - a.price
+        sortDirection === "asc" ? a.price - b.price : b.price - a.price
       );
-    } else if (sortOption === 'date') {
+    } else if (sortOption === "date") {
       sorted.sort((a, b) => {
         const dateA = a.listedDate ? new Date(a.listedDate).getTime() : 0;
         const dateB = b.listedDate ? new Date(b.listedDate).getTime() : 0;
-        return sortDirection === 'asc' ? dateA - dateB : dateB - dateA;
+        return sortDirection === "asc" ? dateA - dateB : dateB - dateA;
       });
     }
 
@@ -107,13 +107,11 @@ const PropertiesPage: React.FC = () => {
   const sortedProperties = getSortedProperties();
 
   const toggleSortDirection = () => {
-    setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    setSortDirection(sortDirection === "asc" ? "desc" : "asc");
   };
 
   return (
     <div className="flex flex-col min-h-screen">
-      <Navbar />
-
       <main className="flex-grow">
         <Container className="py-8">
           {/* Header: Filtros y controles */}
@@ -123,7 +121,11 @@ const PropertiesPage: React.FC = () => {
                 {totalProperties} resultados
               </Badge>
               {getActiveFiltersCount() > 0 && (
-                <Button variant="outline" size="sm" onClick={handleClearFilters}>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleClearFilters}
+                >
                   Limpiar Filtros
                 </Button>
               )}
@@ -142,7 +144,9 @@ const PropertiesPage: React.FC = () => {
                 </FilterDrawerButton>
 
                 <div className="flex items-center gap-2">
-                  <span className="text-sm text-muted-foreground">Ordenar por:</span>
+                  <span className="text-sm text-muted-foreground">
+                    Ordenar por:
+                  </span>
                   <div className="w-[140px]">
                     <Select value={sortOption} onValueChange={setSortOption}>
                       <SelectTrigger className="h-9 text-sm">
@@ -160,11 +164,12 @@ const PropertiesPage: React.FC = () => {
                     size="icon"
                     onClick={toggleSortDirection}
                     className={cn(
-                      sortOption === 'relevance' && 'opacity-50 cursor-not-allowed'
+                      sortOption === "relevance" &&
+                        "opacity-50 cursor-not-allowed"
                     )}
-                    disabled={sortOption === 'relevance'}
+                    disabled={sortOption === "relevance"}
                   >
-                    {sortDirection === 'asc' ? (
+                    {sortDirection === "asc" ? (
                       <SortAscending size={20} />
                     ) : (
                       <SortDescending size={20} />
@@ -197,7 +202,9 @@ const PropertiesPage: React.FC = () => {
             <div className="lg:w-2/5 max-h-[calc(100vh-280px)] overflow-y-auto px-1">
               {totalProperties === 0 ? (
                 <div className="py-20 text-center text-muted-foreground">
-                  <p className="text-xl font-medium mb-2">No se encontraron propiedades.</p>
+                  <p className="text-xl font-medium mb-2">
+                    No se encontraron propiedades.
+                  </p>
                   <p>Prueba modificando los filtros.</p>
                 </div>
               ) : (
@@ -232,8 +239,6 @@ const PropertiesPage: React.FC = () => {
           )}
         </Container>
       </main>
-
-      <Footer />
     </div>
   );
 };
