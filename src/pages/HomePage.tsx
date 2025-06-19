@@ -23,14 +23,13 @@ const HomePage: React.FC = () => {
       setIsMobile(mobile);
 
       if (mobile) {
-        setFeaturedProperties(all); // Mostrar todo en scroll horizontal
+        setFeaturedProperties(all);
         return;
       }
 
       const grid = gridRef.current;
       if (!grid) return;
 
-      // Esperamos a que Tailwind haya aplicado las clases responsivas
       const style = window.getComputedStyle(grid);
       const templateColumns = style.getPropertyValue("grid-template-columns");
       const columnCount = templateColumns.split(" ").length;
@@ -58,9 +57,8 @@ const HomePage: React.FC = () => {
           subtitle="Busca entre miles de casas, departamentos y propiedades de lujo en todo el país"
         />
 
-        {/* Sección propiedades destacadas */}
         <section className="py-16">
-          <div className="w-full max-w-[1800px] mx-auto px-4">
+          <div className="container mx-auto px-8 xl:px-12">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
               <div>
                 <h2 className="text-3xl font-bold mb-2">
@@ -94,7 +92,7 @@ const HomePage: React.FC = () => {
             ) : (
               <div
                 ref={gridRef}
-                className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4"
+                className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-6 gap-6"
               >
                 {featuredProperties.length > 0 ? (
                   featuredProperties.map((property) => (

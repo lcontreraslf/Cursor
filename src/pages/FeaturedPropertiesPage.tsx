@@ -24,7 +24,11 @@ const FeaturedPropertiesPage: React.FC = () => {
       if (initialized.current || !gridRef.current) return;
 
       const style = window.getComputedStyle(gridRef.current);
-      const columns = style.getPropertyValue("grid-template-columns").split(" ").filter(Boolean).length;
+      const columns = style
+        .getPropertyValue("grid-template-columns")
+        .split(" ")
+        .filter(Boolean).length;
+
       const initialCount = (columns || 6) * 2;
 
       setVisibleCount(initialCount);
@@ -44,7 +48,11 @@ const FeaturedPropertiesPage: React.FC = () => {
     if (!gridRef.current) return;
 
     const style = window.getComputedStyle(gridRef.current);
-    const columns = style.getPropertyValue("grid-template-columns").split(" ").filter(Boolean).length;
+    const columns = style
+      .getPropertyValue("grid-template-columns")
+      .split(" ")
+      .filter(Boolean).length;
+
     const toAdd = (columns || 6) * 2;
 
     setVisibleCount((prev) => prev + toAdd);
@@ -54,7 +62,7 @@ const FeaturedPropertiesPage: React.FC = () => {
     <div className="flex flex-col min-h-screen">
       <main className="flex-grow bg-muted/50">
         <section className="py-16">
-          <div className="max-w-[1600px] mx-auto px-4">
+          <div className="container mx-auto px-8 xl:px-12">
             <div className="flex items-center justify-between mb-10">
               <div>
                 <h1 className="text-4xl font-bold mb-2">Propiedades Destacadas</h1>
@@ -76,7 +84,7 @@ const FeaturedPropertiesPage: React.FC = () => {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.2 }}
-              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4"
+              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-6 gap-6"
             >
               {visibleProperties.map((property) => (
                 <motion.div
