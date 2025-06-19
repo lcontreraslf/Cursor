@@ -1,5 +1,5 @@
 // src/pages/HomePage.tsx
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import HeroSearch from "../components/ui/hero-search";
 import PropertyCard from "../components/ui/property-card";
@@ -12,11 +12,37 @@ import { Link } from "react-router-dom";
 
 const HomePage: React.FC = () => {
   const [featuredProperties, setFeaturedProperties] = useState<Property[]>([]);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const gridRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const all = getFeaturedProperties();
-    const max = 12; // máximo 2 filas visuales
-    setFeaturedProperties(all.slice(0, max));
+
+    const updateVisibleProperties = () => {
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
+
+      if (mobile) {
+        setFeaturedProperties(all); // Mostrar todo en scroll horizontal
+        return;
+      }
+
+      const grid = gridRef.current;
+      if (!grid) return;
+
+      // Esperamos a que Tailwind haya aplicado las clases responsivas
+      const style = window.getComputedStyle(grid);
+      const templateColumns = style.getPropertyValue("grid-template-columns");
+      const columnCount = templateColumns.split(" ").length;
+
+      const max = columnCount * 2;
+      setFeaturedProperties(all.slice(0, max));
+    };
+
+    updateVisibleProperties();
+    window.addEventListener("resize", updateVisibleProperties);
+
+    return () => window.removeEventListener("resize", updateVisibleProperties);
   }, []);
 
   const itemVariants = {
@@ -47,11 +73,15 @@ const HomePage: React.FC = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
-              {featuredProperties.length > 0 ? (
-                featuredProperties.map((property) => (
+            {isMobile ? (
+              <div
+                className="flex gap-4 overflow-x-auto pb-2 scroll-smooth snap-x snap-mandatory"
+                ref={gridRef}
+              >
+                {featuredProperties.map((property) => (
                   <motion.div
                     key={property.id}
+                    className="snap-start shrink-0 w-[80%] sm:w-[300px]"
                     variants={itemVariants}
                     initial="hidden"
                     whileInView="visible"
@@ -59,19 +89,41 @@ const HomePage: React.FC = () => {
                   >
                     <PropertyCard property={property} />
                   </motion.div>
-                ))
-              ) : (
-                <div className="col-span-full py-20 text-center">
-                  <Buildings size={48} className="mx-auto text-gray-400 mb-4" />
-                  <h3 className="text-xl font-medium">
-                    No hay propiedades destacadas disponibles
-                  </h3>
-                  <p className="text-gray-500 mt-2">
-                    Vuelve más tarde para ver nuevos listados
-                  </p>
-                </div>
-              )}
-            </div>
+                ))}
+              </div>
+            ) : (
+              <div
+                ref={gridRef}
+                className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4"
+              >
+                {featuredProperties.length > 0 ? (
+                  featuredProperties.map((property) => (
+                    <motion.div
+                      key={property.id}
+                      variants={itemVariants}
+                      initial="hidden"
+                      whileInView="visible"
+                      viewport={{ once: true, amount: 0.1 }}
+                    >
+                      <PropertyCard property={property} />
+                    </motion.div>
+                  ))
+                ) : (
+                  <div className="col-span-full py-20 text-center">
+                    <Buildings
+                      size={48}
+                      className="mx-auto text-gray-400 mb-4"
+                    />
+                    <h3 className="text-xl font-medium">
+                      No hay propiedades destacadas disponibles
+                    </h3>
+                    <p className="text-gray-500 mt-2">
+                      Vuelve más tarde para ver nuevos listados
+                    </p>
+                  </div>
+                )}
+              </div>
+            )}
 
             <div className="mt-8 text-center">
               <Link to="/featured-properties">
@@ -113,7 +165,6 @@ const HomePage: React.FC = () => {
           </div>
         </section>
       </main>
-
     </div>
   );
 };
