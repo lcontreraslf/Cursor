@@ -5,7 +5,6 @@ import { PropertyGallery } from '../components/ui/property-gallery';
 import { PropertyFeatures } from '../components/ui/property-features';
 import { PropertyDescription } from '../components/ui/property-description';
 import { PropertyAmenities } from '../components/ui/property-amenities';
-// PropertyDetails component removed as it doesn't exist
 import { PropertyContact } from '../components/ui/property-contact';
 import { PropertyLocation } from '../components/ui/property-location';
 import { PropertyInfo } from '../components/ui/property-info';
@@ -26,27 +25,24 @@ const PropertyDetailPage: React.FC = () => {
   const [loadingMap, setLoadingMap] = useState(true);
 
   useEffect(() => {
-    // Scroll to top when component mounts
     window.scrollTo(0, 0);
-    
     if (id) {
       const foundProperty = getPropertyById(id);
       setProperty(foundProperty);
       setLoading(false);
-      
-      // Simulate map loading
+
       const timer = setTimeout(() => {
         setLoadingMap(false);
       }, 1000);
-      
+
       return () => clearTimeout(timer);
     }
   }, [id, getPropertyById]);
-  
+
   const toggleSaved = () => {
     setIsSaved(!isSaved);
   };
-  
+
   if (loading) {
     return (
       <Container className="py-12">
@@ -58,15 +54,15 @@ const PropertyDetailPage: React.FC = () => {
       </Container>
     );
   }
-  
+
   if (!property) {
     return <NotFoundPage />;
   }
-  
+
   return (
     <div className="min-h-screen">
-      <Container className="py-6 md:py-12">
-        {/* Back to listings button */}
+      <div className="container px-6 xl:px-8 py-6 md:py-12 mx-auto">
+        {/* Botón volver */}
         <div className="mb-6">
           <Button variant="outline" size="sm" asChild>
             <Link to="/properties">
@@ -75,43 +71,42 @@ const PropertyDetailPage: React.FC = () => {
             </Link>
           </Button>
         </div>
-        
-        {/* Property header */}
+
+        {/* Encabezado de propiedad */}
         <div className="grid grid-cols-1 md:grid-cols-[1fr,auto] gap-4 mb-6">
           <div>
             <h1 className="text-3xl font-bold mb-2">{property.title}</h1>
-            <p className="text-lg text-muted-foreground">{property.address.street}, {property.address.city}, {property.address.state} {property.address.zipCode}</p>
+            <p className="text-lg text-muted-foreground">
+              {property.address.street}, {property.address.city}, {property.address.state} {property.address.zipCode}
+            </p>
           </div>
           <div className="flex items-start gap-4">
-            <Button onClick={toggleSaved} variant={isSaved ? "default" : "outline"} className="flex items-center gap-2">
-              <Star weight={isSaved ? "fill" : "regular"} />
-              <span>{isSaved ? "Saved" : "Save"}</span>
+            <Button
+              onClick={toggleSaved}
+              variant={isSaved ? 'default' : 'outline'}
+              className="flex items-center gap-2"
+            >
+              <Star weight={isSaved ? 'fill' : 'regular'} />
+              <span>{isSaved ? 'Saved' : 'Save'}</span>
             </Button>
           </div>
         </div>
-        
-        {/* Property gallery */}
+
+        {/* Galería */}
         <PropertyGallery images={property.images} />
-        
-        {/* Main content */}
+
+        {/* Contenido principal */}
         <div className="grid grid-cols-1 lg:grid-cols-[1fr,380px] gap-8 mt-10">
           <div className="space-y-10">
             <PropertyInfo property={property} />
-            
             <Separator />
-            
             <PropertyDescription description={property.description} />
-            
             <Separator />
-            
             <PropertyFeatures features={property.features} />
-            
             <Separator />
-            
             <PropertyAmenities amenities={property.amenities} />
-            
             <Separator />
-            
+
             <div className="space-y-4">
               <h2 className="text-2xl font-bold">Location</h2>
               <div className="h-[400px] overflow-hidden rounded-lg border border-border">
@@ -120,21 +115,18 @@ const PropertyDetailPage: React.FC = () => {
                     <div className="animate-pulse text-gray-400">Loading map...</div>
                   </div>
                 ) : (
-                  <MapView 
-                    properties={[property]} 
-                    selectedProperty={property} 
-                  />
+                  <MapView properties={[property]} selectedProperty={property} />
                 )}
               </div>
               <PropertyLocation location={property.address} />
             </div>
           </div>
-          
+
           <div className="lg:sticky lg:top-6 lg:self-start">
             <PropertyContact property={property} />
           </div>
         </div>
-      </Container>
+      </div>
     </div>
   );
 };

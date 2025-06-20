@@ -1,4 +1,3 @@
-// src/pages/PublishPage.tsx
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Label } from '../components/ui/label';
@@ -16,10 +15,15 @@ const PublishPage: React.FC = () => {
     if (type) setListingType(type as 'sale' | 'rent');
   }, [location.search]);
 
-  const title = listingType === 'sale' ? 'Publicar Venta' : listingType === 'rent' ? 'Publicar Arriendo' : 'Publicar Propiedad';
+  const title =
+    listingType === 'sale'
+      ? 'Publicar Venta'
+      : listingType === 'rent'
+      ? 'Publicar Arriendo'
+      : 'Publicar Propiedad';
 
   return (
-    <div className="max-w-3xl mx-auto py-12 px-4">
+    <div className="max-w-3xl mx-auto py-12 px-6 xl:px-8">
       <h1 className="text-3xl font-bold mb-6">{title}</h1>
 
       <div className="mb-6">
