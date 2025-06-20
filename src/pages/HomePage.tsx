@@ -58,7 +58,7 @@ const HomePage: React.FC = () => {
         />
 
         <section className="py-16">
-          <div className="container mx-auto px-8 xl:px-12">
+          <div className="container mx-auto px-4 sm:px-6 xl:px-12">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
               <div>
                 <h2 className="text-3xl font-bold mb-2">
@@ -71,15 +71,14 @@ const HomePage: React.FC = () => {
               </div>
             </div>
 
-            {isMobile ? (
-              <div
-                className="flex gap-4 overflow-x-auto pb-2 scroll-smooth snap-x snap-mandatory"
-                ref={gridRef}
-              >
-                {featuredProperties.map((property) => (
+            <div
+              ref={gridRef}
+              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4"
+            >
+              {featuredProperties.length > 0 ? (
+                featuredProperties.map((property) => (
                   <motion.div
                     key={property.id}
-                    className="snap-start shrink-0 w-[80%] sm:w-[300px]"
                     variants={itemVariants}
                     initial="hidden"
                     whileInView="visible"
@@ -87,41 +86,22 @@ const HomePage: React.FC = () => {
                   >
                     <PropertyCard property={property} />
                   </motion.div>
-                ))}
-              </div>
-            ) : (
-              <div
-                ref={gridRef}
-                className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-6 gap-6"
-              >
-                {featuredProperties.length > 0 ? (
-                  featuredProperties.map((property) => (
-                    <motion.div
-                      key={property.id}
-                      variants={itemVariants}
-                      initial="hidden"
-                      whileInView="visible"
-                      viewport={{ once: true, amount: 0.1 }}
-                    >
-                      <PropertyCard property={property} />
-                    </motion.div>
-                  ))
-                ) : (
-                  <div className="col-span-full py-20 text-center">
-                    <Buildings
-                      size={48}
-                      className="mx-auto text-gray-400 mb-4"
-                    />
-                    <h3 className="text-xl font-medium">
-                      No hay propiedades destacadas disponibles
-                    </h3>
-                    <p className="text-gray-500 mt-2">
-                      Vuelve más tarde para ver nuevos listados
-                    </p>
-                  </div>
-                )}
-              </div>
-            )}
+                ))
+              ) : (
+                <div className="col-span-full py-20 text-center">
+                  <Buildings
+                    size={48}
+                    className="mx-auto text-gray-400 mb-4"
+                  />
+                  <h3 className="text-xl font-medium">
+                    No hay propiedades destacadas disponibles
+                  </h3>
+                  <p className="text-gray-500 mt-2">
+                    Vuelve más tarde para ver nuevos listados
+                  </p>
+                </div>
+              )}
+            </div>
 
             <div className="mt-8 text-center">
               <Link to="/featured-properties">

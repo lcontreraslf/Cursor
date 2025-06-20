@@ -3,7 +3,7 @@ echo "📝 Commit rápido de todos los cambios..."
 git add .
 
 echo "Escribe tu mensaje de commit (presiona CTRL+D para terminar):"
-commit_message=$(</dev/stdin)
+commit_message=$(cat)
 
 if [ -z "$commit_message" ]; then
   echo "❌ No se escribió ningún mensaje. Abortando commit."
