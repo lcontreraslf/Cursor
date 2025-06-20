@@ -1,5 +1,4 @@
 // src/components/layout/Footer.tsx
-import React from "react";
 import {
   FacebookLogo,
   InstagramLogo,
@@ -13,13 +12,13 @@ const Footer = () => {
         {/* Columna 1 */}
         <div>
           <h3 className="text-white font-semibold mb-3">PropiedadesPlus</h3>
-          <p className="mb-2">Encuentra tu propiedad ideal de forma simple y rápida.</p>
-          <p className="mb-4">Explora nuestra selección de casas, departamentos y espacios comerciales.</p>
-          <div className="flex space-x-4 text-white mt-2">
-            <FacebookLogo size={20} className="hover:text-gray-300 cursor-pointer" />
-            <TwitterLogo size={20} className="hover:text-gray-300 cursor-pointer" />
-            <InstagramLogo size={20} className="hover:text-gray-300 cursor-pointer" />
-          </div>
+          <p className="mb-2">
+            Encuentra tu propiedad ideal de forma simple y rápida.
+          </p>
+          <p className="mb-4">
+            Explora nuestra selección de casas, departamentos y espacios
+            comerciales.
+          </p>
         </div>
 
         {/* Columna 2 */}
@@ -47,12 +46,26 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* Columna 4 */}
+        {/* Columna 4 - Contacto + Redes Sociales */}
         <div>
           <h4 className="text-white font-semibold mb-3">Contacto</h4>
           <p className="text-gray-300">123 Calle Inmobiliaria, Ciudad, País</p>
           <p className="text-gray-300">+56 9 1234 5678</p>
-          <p className="text-gray-300">contacto@propiedadesplus.cl</p>
+          <p className="text-gray-300 mb-4">contacto@propiedadesplus.cl</p>
+          <div className="flex space-x-4 text-white mt-2">
+            <FacebookLogo
+              size={20}
+              className="hover:text-gray-300 cursor-pointer"
+            />
+            <TwitterLogo
+              size={20}
+              className="hover:text-gray-300 cursor-pointer"
+            />
+            <InstagramLogo
+              size={20}
+              className="hover:text-gray-300 cursor-pointer"
+            />
+          </div>
         </div>
       </div>
 
@@ -60,9 +73,17 @@ const Footer = () => {
       <div className="border-t border-gray-700 mt-10 pt-6 text-center text-xs text-gray-400">
         <p>© 2025 PropiedadesPlus. Todos los derechos reservados.</p>
         <p className="mt-2">
-          <a href="#" className="hover:underline">Política de Privacidad</a> ·{" "}
-          <a href="#" className="hover:underline">Términos de Servicio</a> ·{" "}
-          <a href="#" className="hover:underline">Política de Cookies</a>
+          <a href="#" className="hover:underline">
+            Política de Privacidad
+          </a>{" "}
+          ·{" "}
+          <a href="#" className="hover:underline">
+            Términos de Servicio
+          </a>{" "}
+          ·{" "}
+          <a href="#" className="hover:underline">
+            Política de Cookies
+          </a>
         </p>
       </div>
     </footer>

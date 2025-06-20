@@ -7,13 +7,12 @@ import PropertyCard from "./property-card";
 interface PropertyGridProps {
   properties: Property[];
   onPropertySelect?: (property: Property) => void;
-  compact?: boolean;
+  compact?: boolean; // ← ya no se usará, pero lo dejamos por compatibilidad si quieres
 }
 
 const PropertyGrid: React.FC<PropertyGridProps> = ({
   properties,
   onPropertySelect,
-  compact = false,
 }) => {
   if (properties.length === 0) {
     return (
@@ -26,12 +25,14 @@ const PropertyGrid: React.FC<PropertyGridProps> = ({
     );
   }
 
-  const gridClasses = compact
-    ? "grid grid-cols-1 sm:grid-cols-2 gap-4"
-    : "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-6";
-
   return (
-    <div className={gridClasses}>
+    <div
+      className="grid gap-6"
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+      }}
+    >
       {properties.map((property) => (
         <PropertyCard
           key={property.id}

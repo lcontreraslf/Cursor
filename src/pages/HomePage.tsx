@@ -12,21 +12,12 @@ import { Link } from "react-router-dom";
 
 const HomePage: React.FC = () => {
   const [featuredProperties, setFeaturedProperties] = useState<Property[]>([]);
-  const [isMobile, setIsMobile] = useState<boolean>(false);
   const gridRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const all = getFeaturedProperties();
 
     const updateVisibleProperties = () => {
-      const mobile = window.innerWidth < 768;
-      setIsMobile(mobile);
-
-      if (mobile) {
-        setFeaturedProperties(all);
-        return;
-      }
-
       const grid = gridRef.current;
       if (!grid) return;
 
@@ -73,7 +64,8 @@ const HomePage: React.FC = () => {
 
             <div
               ref={gridRef}
-              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-6"
+              className="grid gap-6"
+              style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))' }}
             >
               {featuredProperties.length > 0 ? (
                 featuredProperties.map((property) => (
@@ -114,34 +106,6 @@ const HomePage: React.FC = () => {
         </section>
 
         <HowItWorks />
-
-        <section className="py-16 bg-primary text-white">
-          <div className="container mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              ¿Listo para encontrar tu hogar ideal?
-            </h2>
-            <p className="text-xl opacity-90 max-w-2xl mx-auto mb-8">
-              Comienza tu búsqueda hoy mismo y descubre la propiedad perfecta
-              que se ajuste a tus necesidades.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/properties?listingType=sale">
-                <Button variant="secondary" size="lg">
-                  Explorar propiedades en venta
-                </Button>
-              </Link>
-              <Link to="/properties?listingType=rent">
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="bg-white/10 hover:bg-white/20 text-white border-white/30"
-                >
-                  Buscar propiedades en arriendo
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </section>
       </main>
     </div>
   );

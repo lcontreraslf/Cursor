@@ -1,3 +1,4 @@
+// src/App.tsx
 import React, { useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 
@@ -7,6 +8,8 @@ import PropertyDetailPage from './pages/PropertyDetailPage';
 import FeaturedPropertiesPage from './pages/FeaturedPropertiesPage';
 import PublishPage from './pages/PublishPage';
 import NotFoundPage from './pages/NotFoundPage';
+import AgentsPage from './pages/AgentsPage';
+import AgentProfilePage from './pages/AgentProfilePage'; // 👈 NUEVO
 
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
@@ -31,6 +34,8 @@ function App() {
           <Route path="/properties/:id" element={<PropertyDetailPage />} />
           <Route path="/featured-properties" element={<FeaturedPropertiesPage />} />
           <Route path="/publish" element={<PublishPage />} />
+          <Route path="/agents" element={<AgentsPage />} />
+          <Route path="/agents/:id" element={<AgentProfilePage />} /> {/* ✅ NUEVA RUTA */}
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>

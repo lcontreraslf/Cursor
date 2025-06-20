@@ -1,6 +1,6 @@
 // src/data/properties.ts
 import { type Property } from '../types';
-import { type PropertyFilters } from '../types';
+import { type PropertyFilters, Agent } from '../types';
 
 const placeholderImages = {
   singleTestImage: '/assets/placeholders/casa-1.jpg',
@@ -11,6 +11,22 @@ const placeholderImages = {
     david: '/assets/placeholders/agent-david.jpg',
     lisa: '/assets/placeholders/agent-lisa.jpg',
   },
+};
+
+const agentList: Agent[] = [
+  {
+    id: 'a1',
+    name: 'Agente Prueba',
+    email: 'agent@example.com',
+    phone: '+1-000-000-0000',
+    photo: placeholderImages.agents.maria,
+    description:
+      'Especialista en propiedades residenciales y comerciales. Atención personalizada y experiencia en toda la Región Metropolitana.',
+  },
+];
+
+export const getAgentById = (agentId: string): Agent | undefined => {
+  return agentList.find((agent) => agent.id === agentId);
 };
 
 const baseProperty: Omit<Property, 'id' | 'title'> = {
@@ -41,16 +57,10 @@ const baseProperty: Omit<Property, 'id' | 'title'> = {
   images: [
     '/assets/placeholders/casa-1.jpg',
     '/assets/placeholders/casa-2.jpg',
-    '/assets/placeholders/casa-3.jpg'
+    '/assets/placeholders/casa-3.jpg',
   ],
   featured: true,
-  agent: {
-    id: 'a1',
-    name: 'Agente Prueba',
-    email: 'agent@example.com',
-    phone: '+1-000-000-0000',
-    photo: placeholderImages.agents.maria,
-  },
+  agent: agentList[0],
   createdAt: '2023-01-01T00:00:00Z',
   updatedAt: '2023-01-01T00:00:00Z',
   listedDate: '2023-01-01T00:00:00Z',
@@ -67,27 +77,57 @@ export const getPropertyById = (id: string): Property | undefined => {
 };
 
 export const filterProperties = (filters: Partial<PropertyFilters>): Property[] => {
-  return properties.filter(property => {
-    if (filters.listingType && filters.listingType !== 'all' && property.listingType !== filters.listingType) return false;
-    if (filters.propertyType && filters.propertyType !== 'all' && property.propertyType !== filters.propertyType) return false;
+  return properties.filter((property) => {
+    if (
+      filters.listingType &&
+      filters.listingType !== 'all' &&
+      property.listingType !== filters.listingType
+    )
+      return false;
+    if (
+      filters.propertyType &&
+      filters.propertyType !== 'all' &&
+      property.propertyType !== filters.propertyType
+    )
+      return false;
     if (filters.priceRange) {
       const { min, max } = filters.priceRange;
       if (min !== null && property.price < min) return false;
       if (max !== null && property.price > max) return false;
     }
-    if (filters.bedrooms !== null && filters.bedrooms !== undefined && property.features.bedrooms < filters.bedrooms) return false;
-    if (filters.bathrooms !== null && filters.bathrooms !== undefined && property.features.bathrooms < filters.bathrooms) return false;
-    if (filters.minArea !== null && filters.minArea !== undefined && property.features.area < filters.minArea) return false;
+    if (
+      filters.bedrooms !== null &&
+      filters.bedrooms !== undefined &&
+      property.features.bedrooms < filters.bedrooms
+    )
+      return false;
+    if (
+      filters.bathrooms !== null &&
+      filters.bathrooms !== undefined &&
+      property.features.bathrooms < filters.bathrooms
+    )
+      return false;
+    if (
+      filters.minArea !== null &&
+      filters.minArea !== undefined &&
+      property.features.area < filters.minArea
+    )
+      return false;
     if (filters.amenities && filters.amenities.length > 0) {
-      const hasAllAmenities = filters.amenities.every((a) => property.amenities.includes(a));
+      const hasAllAmenities = filters.amenities.every((a) =>
+        property.amenities.includes(a)
+      );
       if (!hasAllAmenities) return false;
     }
     if (filters.location) {
       const location = filters.location.toLowerCase();
       const propertyLocation = (
-        property.address.city + ' ' +
-        property.address.state + ' ' +
-        property.address.country + ' ' +
+        property.address.city +
+        ' ' +
+        property.address.state +
+        ' ' +
+        property.address.country +
+        ' ' +
         property.address.zipCode
       ).toLowerCase();
       if (!propertyLocation.includes(location)) return false;
@@ -99,4 +139,8 @@ export const filterProperties = (filters: Partial<PropertyFilters>): Property[] 
 export const getFeaturedProperties = (limit?: number): Property[] => {
   const featured = properties.filter((property) => property.featured);
   return limit ? featured.slice(0, limit) : featured;
+};
+
+export const getPropertiesByAgent = (agentId: string): Property[] => {
+  return properties.filter((property) => property.agent.id === agentId);
 };

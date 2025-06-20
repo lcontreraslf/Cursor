@@ -38,7 +38,11 @@ const Navbar: React.FC = () => {
       key: 'rent',
       icon: <MagnifyingGlass className="w-5 h-5" />,
     },
-    { to: '/agents', label: 'Agentes', icon: <User className="w-5 h-5" /> },
+    {
+      to: '/agents',
+      label: 'Agentes',
+      icon: <User className="w-5 h-5" />,
+    },
   ];
 
   return (
@@ -58,13 +62,14 @@ const Navbar: React.FC = () => {
                 <NavLink
                   key={to}
                   to={to}
-                  className={({ isActive }) =>
-                    `capitalize flex items-center gap-2 relative px-2 pb-1 transition-colors hover:text-foreground/80 ${
-                      (key && isActiveTab(key)) || isActivePath(to)
+                  className={() => {
+                    const isCurrentActive = (key && isActiveTab(key)) || isActivePath(to);
+                    return `capitalize flex items-center gap-2 relative px-2 pb-1 transition-colors hover:text-foreground/80 ${
+                      isCurrentActive
                         ? 'text-foreground after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-primary'
                         : 'text-foreground/60'
-                    }`
-                  }
+                    }`;
+                  }}
                 >
                   {icon}
                   {label}
@@ -121,13 +126,14 @@ const Navbar: React.FC = () => {
                 key={to}
                 to={to}
                 onClick={closeMenu}
-                className={({ isActive }) =>
-                  `capitalize flex items-center gap-3 py-2 text-base font-medium transition-colors hover:text-foreground/80 ${
-                    (key && isActiveTab(key)) || isActivePath(to)
+                className={() => {
+                  const isCurrentActive = (key && isActiveTab(key)) || isActivePath(to);
+                  return `capitalize flex items-center gap-3 py-2 text-base font-medium transition-colors hover:text-foreground/80 ${
+                    isCurrentActive
                       ? 'text-foreground'
                       : 'text-foreground/60'
-                  }`
-                }
+                  }`;
+                }}
               >
                 {icon}
                 {label}

@@ -9,9 +9,10 @@ export type PropertyType = 'house' | 'apartment' | 'condo' | 'villa' | 'land' | 
 export interface Agent {
   id: string;
   name: string;
-  email: string;
   phone: string;
-  photo?: string; // Hago 'photo' opcional por si no siempre está presente
+  email: string;
+  photo: string;
+  description: string;
 }
 
 // Interfaz para las coordenadas de dirección
