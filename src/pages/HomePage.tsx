@@ -58,7 +58,7 @@ const HomePage: React.FC = () => {
         />
 
         <section className="py-16">
-          <div className="container mx-auto px-4 sm:px-6 xl:px-12">
+          <div className="container mx-auto">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
               <div>
                 <h2 className="text-3xl font-bold mb-2">
@@ -73,7 +73,7 @@ const HomePage: React.FC = () => {
 
             <div
               ref={gridRef}
-              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4"
+              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-6"
             >
               {featuredProperties.length > 0 ? (
                 featuredProperties.map((property) => (
@@ -116,7 +116,7 @@ const HomePage: React.FC = () => {
         <HowItWorks />
 
         <section className="py-16 bg-primary text-white">
-          <div className="container mx-auto px-4 text-center">
+          <div className="container mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               ¿Listo para encontrar tu hogar ideal?
             </h2>

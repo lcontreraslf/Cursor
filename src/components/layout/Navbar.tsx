@@ -1,4 +1,3 @@
-// src/components/layout/Navbar.tsx
 import React, { useState } from 'react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import {
@@ -7,23 +6,10 @@ import {
   X,
   MagnifyingGlass,
   User,
-  UploadSimple
+  UploadSimple,
 } from '@phosphor-icons/react';
 import { Button } from '../ui/button';
 import ModeToggle from '../ui/mode-toggle';
-import {
-  DropdownMenu,
-  DropdownMenuTrigger,
-  DropdownMenuContent,
-  DropdownMenuItem
-} from '../ui/dropdown-menu';
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem
-} from '../ui/select';
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -40,20 +26,25 @@ const Navbar: React.FC = () => {
   };
 
   const navItems = [
-    { to: '/properties?listingType=sale', label: 'Comprar', key: 'sale', icon: <HouseSimple className="w-5 h-5" /> },
-    { to: '/properties?listingType=rent', label: 'Arrendar', key: 'rent', icon: <MagnifyingGlass className="w-5 h-5" /> },
+    {
+      to: '/properties?listingType=sale',
+      label: 'Comprar',
+      key: 'sale',
+      icon: <HouseSimple className="w-5 h-5" />,
+    },
+    {
+      to: '/properties?listingType=rent',
+      label: 'Arrendar',
+      key: 'rent',
+      icon: <MagnifyingGlass className="w-5 h-5" />,
+    },
     { to: '/agents', label: 'Agentes', icon: <User className="w-5 h-5" /> },
   ];
 
-  const handleSelectChange = (value: string) => {
-    closeMenu();
-    navigate(`/publish?listingType=${value}`);
-  };
-
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="w-full px-4">
-        <div className="container mx-auto flex h-14 items-center justify-between">
+      <div className="w-full px-6 xl:px-8">
+        <div className="max-w-[1400px] mx-auto flex h-14 items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
             <img src="/logo.svg" alt="PropiedadesPlus Logo" className="h-6 w-auto" />
@@ -84,7 +75,6 @@ const Navbar: React.FC = () => {
 
           {/* Lado derecho */}
           <div className="flex items-center space-x-2 ml-auto">
-            {/* Botón Publicar en desktop */}
             <Button
               onClick={() => navigate('/publish')}
               className="bg-blue-600 text-white hover:bg-blue-700 hidden md:flex"

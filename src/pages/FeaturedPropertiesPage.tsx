@@ -29,7 +29,7 @@ const FeaturedPropertiesPage: React.FC = () => {
         .split(" ")
         .filter(Boolean).length;
 
-      const initialCount = (columns || 6) * 2;
+      const initialCount = (columns || 5) * 2;
 
       setVisibleCount(initialCount);
       initialized.current = true;
@@ -53,7 +53,7 @@ const FeaturedPropertiesPage: React.FC = () => {
       .split(" ")
       .filter(Boolean).length;
 
-    const toAdd = (columns || 6) * 2;
+    const toAdd = (columns || 5) * 2;
 
     setVisibleCount((prev) => prev + toAdd);
   };
@@ -62,7 +62,7 @@ const FeaturedPropertiesPage: React.FC = () => {
     <div className="flex flex-col min-h-screen">
       <main className="flex-grow bg-muted/50">
         <section className="py-16">
-          <div className="container mx-auto px-4 sm:px-6 xl:px-12">
+          <div className="container mx-auto">
             <div className="flex items-center justify-between mb-10">
               <div>
                 <h1 className="text-4xl font-bold mb-2">Propiedades Destacadas</h1>
@@ -84,7 +84,7 @@ const FeaturedPropertiesPage: React.FC = () => {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.2 }}
-              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6"
+              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-6"
             >
               {visibleProperties.map((property) => (
                 <motion.div

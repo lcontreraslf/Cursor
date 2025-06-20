@@ -41,9 +41,7 @@ const PropertiesPage: React.FC = () => {
   } = usePropertyStore();
 
   const [isMapView, setIsMapView] = useState(true);
-  const [selectedProperty, setSelectedProperty] = useState<Property | null>(
-    null
-  );
+  const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
   const [sortOption, setSortOption] = useState("relevance");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
 
@@ -86,7 +84,6 @@ const PropertiesPage: React.FC = () => {
 
   const getSortedProperties = () => {
     if (!properties) return [];
-
     const sorted = [...properties];
 
     if (sortOption === "price") {
@@ -114,18 +111,13 @@ const PropertiesPage: React.FC = () => {
     <div className="flex flex-col min-h-screen">
       <main className="flex-grow">
         <Container className="py-8">
-          {/* Header: Filtros y controles */}
           <div className="flex flex-wrap items-center justify-between gap-3 w-full mb-4">
             <div className="flex items-center gap-2">
               <Badge variant="outline" className="px-2 py-1">
                 {totalProperties} resultados
               </Badge>
               {getActiveFiltersCount() > 0 && (
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleClearFilters}
-                >
+                <Button variant="outline" size="sm" onClick={handleClearFilters}>
                   Limpiar Filtros
                 </Button>
               )}
@@ -144,9 +136,7 @@ const PropertiesPage: React.FC = () => {
                 </FilterDrawerButton>
 
                 <div className="flex items-center gap-2">
-                  <span className="text-sm text-muted-foreground">
-                    Ordenar por:
-                  </span>
+                  <span className="text-sm text-muted-foreground">Ordenar por:</span>
                   <div className="w-[140px]">
                     <Select value={sortOption} onValueChange={setSortOption}>
                       <SelectTrigger className="h-9 text-sm">
@@ -164,8 +154,7 @@ const PropertiesPage: React.FC = () => {
                     size="icon"
                     onClick={toggleSortDirection}
                     className={cn(
-                      sortOption === "relevance" &&
-                        "opacity-50 cursor-not-allowed"
+                      sortOption === "relevance" && "opacity-50 cursor-not-allowed"
                     )}
                     disabled={sortOption === "relevance"}
                   >
@@ -187,7 +176,6 @@ const PropertiesPage: React.FC = () => {
 
           <Separator className="mb-4" />
 
-          {/* Vista de Mapa + Grilla lateral */}
           <div className="flex flex-col gap-4 lg:flex-row">
             {isMapView && (
               <div className="lg:w-3/5 h-[400px] lg:h-[calc(100vh-280px)] rounded-lg overflow-hidden shadow bg-muted">
@@ -199,7 +187,7 @@ const PropertiesPage: React.FC = () => {
               </div>
             )}
 
-            <div className="lg:w-2/5 max-h-[calc(100vh-280px)] overflow-y-auto px-1">
+            <div className="lg:w-2/5 max-h-[calc(100vh-280px)] overflow-y-auto">
               {totalProperties === 0 ? (
                 <div className="py-20 text-center text-muted-foreground">
                   <p className="text-xl font-medium mb-2">
@@ -217,7 +205,6 @@ const PropertiesPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Paginación */}
           {totalProperties > PROPERTIES_PER_PAGE && (
             <div className="mt-8 flex justify-center">
               <ToggleGroup

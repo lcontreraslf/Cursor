@@ -1,4 +1,3 @@
-// src/components/ui/HeroSearch.tsx
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import SearchFilters from './search-filters';
@@ -22,9 +21,9 @@ const HeroSearch: React.FC<HeroSearchProps> = ({
       opacity: 1,
       transition: {
         duration: 0.6,
-        staggerChildren: 0.2
-      }
-    }
+        staggerChildren: 0.2,
+      },
+    },
   };
 
   const itemVariants = {
@@ -32,47 +31,49 @@ const HeroSearch: React.FC<HeroSearchProps> = ({
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6 }
-    }
+      transition: { duration: 0.6 },
+    },
   };
 
   return (
     <div
       className="relative min-h-[600px] flex flex-col items-center justify-center bg-cover bg-center px-4"
       style={{
-        backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${backgroundImage})`
+        backgroundImage: `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${backgroundImage})`,
       }}
     >
-      <motion.div
-        className="relative z-10 text-center text-white max-w-3xl"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        <motion.h1
-          className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4"
-          variants={itemVariants}
+      <div className="container">
+        <motion.div
+          className="relative z-10 text-center text-white max-w-3xl mx-auto"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
         >
-          {title}
-        </motion.h1>
-
-        <motion.p
-          className="text-xl md:text-2xl text-gray-200 mb-8"
-          variants={itemVariants}
-        >
-          {subtitle}
-        </motion.p>
-
-        {!showFilters && (
-          <motion.button
+          <motion.h1
+            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4"
             variants={itemVariants}
-            className="px-6 py-3 text-lg font-semibold bg-white text-primary rounded-full shadow-md hover:bg-gray-100 transition"
-            onClick={() => setShowFilters(true)}
           >
-            Explorar propiedades
-          </motion.button>
-        )}
-      </motion.div>
+            {title}
+          </motion.h1>
+
+          <motion.p
+            className="text-xl md:text-2xl text-gray-200 mb-8"
+            variants={itemVariants}
+          >
+            {subtitle}
+          </motion.p>
+
+          {!showFilters && (
+            <motion.button
+              variants={itemVariants}
+              className="px-6 py-3 text-lg font-semibold bg-white text-primary rounded-full shadow-md hover:bg-gray-100 transition"
+              onClick={() => setShowFilters(true)}
+            >
+              Explorar propiedades
+            </motion.button>
+          )}
+        </motion.div>
+      </div>
 
       {/* Filtros: se despliegan debajo con animación */}
       <AnimatePresence>
