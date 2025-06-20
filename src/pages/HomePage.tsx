@@ -10,12 +10,14 @@ import { type Property } from "../types";
 import { Buildings } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
 
+const shuffle = (arr: Property[]) => [...arr].sort(() => Math.random() - 0.5);
+
 const HomePage: React.FC = () => {
   const [featuredProperties, setFeaturedProperties] = useState<Property[]>([]);
   const gridRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const all = getFeaturedProperties();
+    const all = shuffle(getFeaturedProperties()); // 🔁 Mezcla propiedades destacadas
 
     const updateVisibleProperties = () => {
       const grid = gridRef.current;
@@ -65,7 +67,7 @@ const HomePage: React.FC = () => {
             <div
               ref={gridRef}
               className="grid gap-6"
-              style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))' }}
+              style={{ gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))" }}
             >
               {featuredProperties.length > 0 ? (
                 featuredProperties.map((property) => (
@@ -81,10 +83,7 @@ const HomePage: React.FC = () => {
                 ))
               ) : (
                 <div className="col-span-full py-20 text-center">
-                  <Buildings
-                    size={48}
-                    className="mx-auto text-gray-400 mb-4"
-                  />
+                  <Buildings size={48} className="mx-auto text-gray-400 mb-4" />
                   <h3 className="text-xl font-medium">
                     No hay propiedades destacadas disponibles
                   </h3>

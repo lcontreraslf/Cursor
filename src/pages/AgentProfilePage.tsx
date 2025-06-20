@@ -1,96 +1,96 @@
-// src/pages/AgentProfilePage.tsx
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getAgentById, getPropertiesByAgent } from '../data/properties';
-import { Property } from '../types';
+import { Property, Agent } from '../types';
 import PropertyCard from '../components/ui/property-card';
-import { Button } from '../components/ui/button';
-import { EnvelopeSimple, Phone, WhatsappLogo } from '@phosphor-icons/react';
+import { Container } from '../components/ui/container';
+import { Envelope, Phone } from '@phosphor-icons/react';
 
 const AgentProfilePage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const agent = id ? getAgentById(id) : null;
-  const properties = id ? getPropertiesByAgent(id) : [];
+  const [agent, setAgent] = useState<Agent | null>(null);
+  const [propertiesSale, setPropertiesSale] = useState<Property[]>([]);
+  const [propertiesRent, setPropertiesRent] = useState<Property[]>([]);
+  const saleGridRef = useRef<HTMLDivElement>(null);
+  const rentGridRef = useRef<HTMLDivElement>(null);
 
-  const forSale = properties.filter((p) => p.listingType === 'sale');
-  const forRent = properties.filter((p) => p.listingType === 'rent');
+  useEffect(() => {
+    if (id) {
+      const foundAgent = getAgentById(id);
+      setAgent(foundAgent);
 
-  if (!agent) {
-    return (
-      <div className="container px-6 xl:px-8 mx-auto py-16 text-center">
-        <h2 className="text-2xl font-semibold mb-4">Agente no encontrado</h2>
-        <p className="text-muted-foreground">Verifica el enlace o selecciona otro agente.</p>
-      </div>
-    );
-  }
+      const allProps = getPropertiesByAgent(id);
+      const sale = allProps.filter(p => p.listingType === 'sale');
+      const rent = allProps.filter(p => p.listingType === 'rent');
+
+      const getVisibleItems = (ref: React.RefObject<HTMLDivElement>, list: Property[]) => {
+        const grid = ref.current;
+        if (!grid) return [];
+        const computed = window.getComputedStyle(grid);
+        const columnCount = computed.getPropertyValue('grid-template-columns').split(' ').length;
+        return list.slice(0, columnCount); // una fila visible
+      };
+
+      const updateGrids = () => {
+        setPropertiesSale(getVisibleItems(saleGridRef, sale));
+        setPropertiesRent(getVisibleItems(rentGridRef, rent));
+      };
+
+      setTimeout(updateGrids, 50);
+      window.addEventListener('resize', updateGrids);
+      return () => window.removeEventListener('resize', updateGrids);
+    }
+  }, [id]);
+
+  if (!agent) return <div className="p-10 text-center">Agente no encontrado.</div>;
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <main className="flex-grow">
-        <section className="py-12 border-b">
-          <div className="container px-6 xl:px-8 mx-auto flex flex-col md:flex-row items-center md:items-start gap-8">
-            <img
-              src={agent.photo}
-              alt={agent.name}
-              className="w-28 h-28 md:w-32 md:h-32 rounded-full object-cover border"
-            />
-            <div>
-              <h1 className="text-3xl font-bold mb-1">{agent.name}</h1>
-              <p className="text-muted-foreground mb-3 max-w-xl">
-                {agent.description}
-              </p>
-              <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
-                <span className="flex items-center gap-1">
-                  <EnvelopeSimple size={16} /> {agent.email}
-                </span>
-                <span className="flex items-center gap-1">
-                  <Phone size={16} /> {agent.phone}
-                </span>
-                <span className="flex items-center gap-1">
-                  <WhatsappLogo size={16} /> {agent.phone}
-                </span>
-              </div>
+    <Container className="py-12">
+      {/* Perfil del Agente */}
+      <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mb-10">
+        <img
+          src={agent.photo}
+          alt={agent.name}
+          className="w-28 h-28 rounded-full object-cover border border-border"
+        />
+        <div>
+          <h1 className="text-3xl font-bold mb-1">{agent.name}</h1>
+          <p className="text-muted-foreground mb-2">{agent.description}</p>
+          <div className="flex flex-col sm:flex-row gap-3 text-sm text-muted-foreground">
+            <div className="flex items-center gap-2">
+              <Envelope size={32} /> {agent.email}
+            </div>
+            <div className="flex items-center gap-2">
+              <Phone size={16} /> {agent.phone}
             </div>
           </div>
-        </section>
+        </div>
+      </div>
 
-        <section className="py-12">
-          <div className="container px-6 xl:px-8 mx-auto">
-            {forSale.length > 0 && (
-              <div className="mb-10">
-                <h2 className="text-2xl font-bold mb-4">Propiedades en Venta</h2>
-                <div
-                  className="grid gap-6"
-                  style={{
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))'
-                  }}
-                >
-                  {forSale.map((property: Property) => (
-                    <PropertyCard key={property.id} property={property} compact />
-                  ))}
-                </div>
-              </div>
-            )}
+      {/* Propiedades en Venta */}
+      <h2 className="text-2xl font-semibold mb-4">Propiedades en Venta</h2>
+      <div
+        ref={saleGridRef}
+        className="grid gap-6 mb-12"
+        style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', display: 'grid' }}
+      >
+        {propertiesSale.map(property => (
+          <PropertyCard key={property.id} property={property} />
+        ))}
+      </div>
 
-            {forRent.length > 0 && (
-              <div>
-                <h2 className="text-2xl font-bold mb-4">Propiedades en Arriendo</h2>
-                <div
-                  className="grid gap-6"
-                  style={{
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))'
-                  }}
-                >
-                  {forRent.map((property: Property) => (
-                    <PropertyCard key={property.id} property={property} compact />
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        </section>
-      </main>
-    </div>
+      {/* Propiedades en Arriendo */}
+      <h2 className="text-2xl font-semibold mb-4">Propiedades en Arriendo</h2>
+      <div
+        ref={rentGridRef}
+        className="grid gap-6"
+        style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', display: 'grid' }}
+      >
+        {propertiesRent.map(property => (
+          <PropertyCard key={property.id} property={property} />
+        ))}
+      </div>
+    </Container>
   );
 };
 

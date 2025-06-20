@@ -8,9 +8,12 @@ import { Button } from "../components/ui/button";
 import { motion } from "framer-motion";
 import { ArrowLeft } from "@phosphor-icons/react";
 
+// Función para mezclar aleatoriamente
+const shuffle = (arr: Property[]) => [...arr].sort(() => Math.random() - 0.5);
+
 const FeaturedPropertiesPage: React.FC = () => {
   const navigate = useNavigate();
-  const allFeatured: Property[] = getFeaturedProperties();
+  const allFeatured: Property[] = shuffle(getFeaturedProperties()); // ← 🔁 ahora se mezclan
 
   const gridRef = useRef<HTMLDivElement>(null);
   const [visibleCount, setVisibleCount] = useState(0);
@@ -85,7 +88,7 @@ const FeaturedPropertiesPage: React.FC = () => {
               whileInView="visible"
               viewport={{ once: true, amount: 0.2 }}
               className="grid gap-6"
-              style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))' }}
+              style={{ gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))" }}
             >
               {visibleProperties.map((property) => (
                 <motion.div

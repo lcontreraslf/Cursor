@@ -66,11 +66,36 @@ const baseProperty: Omit<Property, 'id' | 'title'> = {
   listedDate: '2023-01-01T00:00:00Z',
 };
 
-export const properties: Property[] = Array.from({ length: 24 }, (_, i) => ({
+const saleProperties: Property[] = Array.from({ length: 24 }, (_, i) => ({
   ...baseProperty,
   id: `${i + 1}`,
   title: `Propiedad Destacada ${i + 1}`,
 }));
+
+const rentProperties: Property[] = Array.from({ length: 24 }, (_, i) => ({
+  ...baseProperty,
+  id: `r-${i + 1}`,
+  title: `Departamento en Arriendo ${i + 1}`,
+  listingType: 'rent',
+  price: 350 + i * 10,
+  propertyType: 'apartment',
+  features: {
+    bedrooms: 2 + (i % 2),
+    bathrooms: 1 + (i % 2),
+    area: 60 + i * 4,
+    garage: 0,
+    yearBuilt: 2012 + (i % 8),
+  },
+  amenities: ['balcony', 'elevator', 'security'],
+  images: ['/assets/placeholders/casa-1.jpg'],
+  featured: i < 6,
+  agent: agentList[0],
+  createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString(),
+  listedDate: new Date().toISOString(),
+}));
+
+export const properties: Property[] = [...saleProperties, ...rentProperties];
 
 export const getPropertyById = (id: string): Property | undefined => {
   return properties.find((property) => property.id === id);

@@ -1,3 +1,5 @@
+// src/components/layout/Navbar.tsx
+
 import React, { useState } from 'react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import {
@@ -48,11 +50,14 @@ const Navbar: React.FC = () => {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="w-full px-6 xl:px-8">
-        <div className="max-w-[1400px] mx-auto flex h-14 items-center justify-between">
+        <div className="max-w-[1400px] mx-auto flex h-20 items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <img src="/logo.svg" alt="PropiedadesPlus Logo" className="h-6 w-auto" />
-            <span className="font-bold text-xl hidden sm:inline">PropiedadesPlus</span>
+          <Link to="/" className="flex items-center gap-3">
+            <img
+              src="/assets/logo-proplus.svg"
+              alt="Logo ProPlus"
+              className="h-16 md:h-20 w-auto"
+            />
           </Link>
 
           {/* Navegación centrada en desktop */}
@@ -92,11 +97,14 @@ const Navbar: React.FC = () => {
               <MagnifyingGlass className="h-5 w-5" />
               <span className="sr-only">Buscar</span>
             </Button>
+
             <ModeToggle />
+
             <Button variant="default" className="ml-2 hidden md:flex">
               <User className="mr-2 h-4 w-4" />
               Iniciar sesión
             </Button>
+
             <Button
               variant="ghost"
               size="icon"
@@ -114,13 +122,16 @@ const Navbar: React.FC = () => {
       {isMenuOpen && (
         <div className="fixed inset-0 z-40 bg-black/50 md:hidden">
           <div className="absolute top-4 right-4 z-50 w-72 bg-white dark:bg-zinc-900 shadow-2xl rounded-xl p-6 flex flex-col gap-4 transition-transform duration-300">
-            <div className="flex justify-between items-center mb-4">
-              <span className="font-semibold text-lg">Menú</span>
-              <Button variant="ghost" size="icon" onClick={closeMenu}>
-                <X className="h-5 w-5" />
-              </Button>
+            {/* Logo Mobile */}
+            <div className="flex items-center space-x-3 mb-4">
+              <img
+                src="/assets/logo-proplus.svg"
+                alt="Logo ProPlus"
+                className="h-14 w-auto"
+              />
             </div>
 
+            {/* Menú móvil */}
             {navItems.map(({ to, label, key, icon }) => (
               <NavLink
                 key={to}
@@ -129,9 +140,7 @@ const Navbar: React.FC = () => {
                 className={() => {
                   const isCurrentActive = (key && isActiveTab(key)) || isActivePath(to);
                   return `capitalize flex items-center gap-3 py-2 text-base font-medium transition-colors hover:text-foreground/80 ${
-                    isCurrentActive
-                      ? 'text-foreground'
-                      : 'text-foreground/60'
+                    isCurrentActive ? 'text-foreground' : 'text-foreground/60'
                   }`;
                 }}
               >
