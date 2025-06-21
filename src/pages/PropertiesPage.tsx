@@ -17,7 +17,6 @@ import {
   Funnel,
   MapTrifold,
   Rows,
-  SortAscending,
 } from "@phosphor-icons/react";
 import { cn } from "../lib/utils";
 import PropertyCard from "../components/ui/property-card";

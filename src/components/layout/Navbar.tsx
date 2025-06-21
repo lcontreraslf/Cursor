@@ -79,9 +79,9 @@ const Navbar: React.FC = () => {
           <div className="flex items-center gap-8">
             <Link to="/" className="flex items-center gap-3">
               <img
-                src="/assets/logo-proplus.svg"
+                src="/assets/logo-proplus-v3.svg"
                 alt="Logo ProPlus"
-                className="h-16 md:h-20 w-auto"
+                className="h-10 w-auto"
               />
             </Link>
             
@@ -152,9 +152,9 @@ const Navbar: React.FC = () => {
           <div className="absolute top-4 right-4 z-50 w-72 bg-white dark:bg-zinc-900 shadow-2xl rounded-xl p-6 flex flex-col gap-4 transition-transform duration-300" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center justify-between mb-4">
               <img
-                src="/assets/logo-proplus.svg"
+                src="/assets/logo-proplus-v3.svg"
                 alt="Logo ProPlus"
-                className="h-14 w-auto"
+                className="h-10 w-auto"
               />
                <Button
                 variant="ghost"

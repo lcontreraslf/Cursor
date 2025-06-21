@@ -1,0 +1,12 @@
+<svg width="180" height="40" viewBox="0 0 180 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g>
+    <!-- Icon inspired by user's image -->
+    <path fill-rule="evenodd" clip-rule="evenodd" 
+          d="M20 4L8 19C8 29, 32 29, 32 19L20 4ZM20 24C17.7909 24, 16 22.2091, 16 20C16 17.7909, 17.7909 16, 20 16C22.2091 16, 24 17.7909, 24 20C24 22.2091, 22.2091 24, 20 24Z" 
+          fill="#2563EB"/>
+    <!-- Text -->
+    <text x="48" y="29" font-family="Inter, sans-serif" font-size="24" font-weight="600" fill="#111827">
+      ProPlus
+    </text>
+  </g>
+</svg> 
