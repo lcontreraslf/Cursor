@@ -12,6 +12,7 @@ interface HeroSearchProps {
   backgroundImage?: string;
   title?: string;
   subtitle?: string;
+  className?: string;
 }
 
 const regions = [
@@ -25,6 +26,7 @@ const HeroSearch: React.FC<HeroSearchProps> = ({
   backgroundImage = '/assets/hero-background.png',
   title = 'Encuentra la Propiedad Perfecta',
   subtitle = 'Busca entre miles de casas, departamentos y propiedades de lujo en todo el país.',
+  className,
 }) => {
   const [showSearch, setShowSearch] = useState(false);
   const [activeField, setActiveField] = useState<string | null>(null);
@@ -73,7 +75,7 @@ const HeroSearch: React.FC<HeroSearchProps> = ({
 
   return (
     <div
-      className="relative min-h-[600px] flex items-center justify-center bg-cover bg-center px-4"
+      className={cn("relative min-h-[600px] flex items-center justify-center bg-cover bg-center px-4", className)}
       style={{
         backgroundImage: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(${backgroundImage})`,
       }}

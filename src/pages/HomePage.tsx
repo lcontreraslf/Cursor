@@ -38,67 +38,64 @@ const HomePage: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <main className="flex-grow">
-        <HeroSearch
-          title="Encuentra la Propiedad Perfecta"
-          subtitle="Busca entre miles de casas, departamentos y propiedades de lujo en todo el país"
-        />
+    <main className="flex-grow">
+      <HeroSearch
+        className="-mt-20 pt-20"
+        title="Encuentra la Propiedad Perfecta"
+        subtitle="Busca entre miles de casas, departamentos y propiedades de lujo en todo el país"
+      />
 
-        <section className="py-16">
-          <div className="container mx-auto">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
-              <div>
-                <h2 className="text-3xl font-bold mb-2">
-                  Propiedades Destacadas
-                </h2>
-                <p className="text-gray-600 dark:text-gray-400 max-w-2xl">
-                  Descubre nuestra selección destacada de propiedades que se
-                  destacan por su calidad, ubicación y valor.
+      <section className="py-16">
+        <div className="container mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+            <div>
+              <h2 className="text-3xl font-bold mb-2">
+                Propiedades Destacadas
+              </h2>
+              <p className="text-gray-600 dark:text-gray-400 max-w-2xl">
+                Descubre nuestra selección destacada de propiedades que se
+                destacan por su calidad, ubicación y valor.
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {propertiesToShow.length > 0 ? (
+              propertiesToShow.map((property) => (
+                <motion.div
+                  key={property.id}
+                  variants={itemVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true, amount: 0.1 }}
+                >
+                  <PropertyCard property={property} />
+                </motion.div>
+              ))
+            ) : (
+              <div className="col-span-full py-20 text-center">
+                <Buildings size={48} className="mx-auto text-gray-400 mb-4" />
+                <h3 className="text-xl font-medium">
+                  No hay propiedades destacadas disponibles
+                </h3>
+                <p className="text-gray-500 mt-2">
+                  Vuelve más tarde para ver nuevos listados
                 </p>
               </div>
-            </div>
-
-            <div
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
-            >
-              {propertiesToShow.length > 0 ? (
-                propertiesToShow.map((property) => (
-                  <motion.div
-                    key={property.id}
-                    variants={itemVariants}
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, amount: 0.1 }}
-                  >
-                    <PropertyCard property={property} />
-                  </motion.div>
-                ))
-              ) : (
-                <div className="col-span-full py-20 text-center">
-                  <Buildings size={48} className="mx-auto text-gray-400 mb-4" />
-                  <h3 className="text-xl font-medium">
-                    No hay propiedades destacadas disponibles
-                  </h3>
-                  <p className="text-gray-500 mt-2">
-                    Vuelve más tarde para ver nuevos listados
-                  </p>
-                </div>
-              )}
-            </div>
-            
-            <div className="mt-12 text-center">
-              <Link to="/featured-properties">
-                <Button size="lg">Ver Todas las Propiedades Destacadas</Button>
-              </Link>
-            </div>
-
+            )}
           </div>
-        </section>
+          
+          <div className="mt-12 text-center">
+            <Link to="/featured-properties">
+              <Button size="lg">Ver Todas las Propiedades Destacadas</Button>
+            </Link>
+          </div>
 
-        <HowItWorks />
-      </main>
-    </div>
+        </div>
+      </section>
+
+      <HowItWorks />
+    </main>
   );
 };
 

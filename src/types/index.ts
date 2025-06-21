@@ -3,7 +3,7 @@
 // Tipos base para enumeraciones
 export type ListingType = 'sale' | 'rent';
 // Añadido 'townhouse' para que coincida con tus datos en properties.ts
-export type PropertyType = 'house' | 'apartment' | 'condo' | 'villa' | 'land' | 'townhouse'; 
+export type PropertyType = 'house' | 'apartment' | 'condo' | 'villa' | 'land' | 'townhouse' | 'office'; 
 
 // Interfaz para el agente
 export interface Agent {

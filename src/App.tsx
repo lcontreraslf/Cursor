@@ -9,7 +9,7 @@ import FeaturedPropertiesPage from './pages/FeaturedPropertiesPage';
 import PublishPage from './pages/PublishPage';
 import NotFoundPage from './pages/NotFoundPage';
 import AgentsPage from './pages/AgentsPage';
-import AgentProfilePage from './pages/AgentProfilePage'; // 👈 NUEVO
+import AgentProfilePage from './pages/AgentProfilePage';
 
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
@@ -35,7 +35,7 @@ function App() {
           <Route path="/featured-properties" element={<FeaturedPropertiesPage />} />
           <Route path="/publish" element={<PublishPage />} />
           <Route path="/agents" element={<AgentsPage />} />
-          <Route path="/agents/:id" element={<AgentProfilePage />} /> {/* ✅ NUEVA RUTA */}
+          <Route path="/agents/:id" element={<AgentProfilePage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>

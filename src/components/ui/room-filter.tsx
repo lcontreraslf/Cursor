@@ -1,5 +1,4 @@
 import React from 'react';
-import { Label } from './label';
 import { Button } from './button';
 import { Minus, Plus } from '@phosphor-icons/react';
 
@@ -31,40 +30,33 @@ export const RoomFilter: React.FC<RoomFilterProps> = ({
   };
 
   return (
-    <div className="space-y-2">
-      <Label htmlFor={`room-filter-${label.toLowerCase()}`} className="text-sm">
-        {label}
-      </Label>
-      <div className="flex items-center">
+    <div className="flex justify-between items-center py-2">
+      <span className="text-base font-normal">{label}</span>
+      <div className="flex items-center gap-4">
         <Button
           type="button"
           variant="outline"
           size="icon"
-          className="h-8 w-8 rounded-r-none"
+          className="rounded-full h-8 w-8 shrink-0"
           onClick={decrement}
           disabled={value <= min}
         >
-          <Minus size={16} />
-          <span className="sr-only">Decrease {label}</span>
+          <Minus size={14} />
+          <span className="sr-only">Disminuir</span>
         </Button>
-        <div 
-          id={`room-filter-${label.toLowerCase()}`}
-          className="flex-1 h-8 flex items-center justify-center border-y border-border"
-        >
-          <span className="text-sm font-medium">
-            {value === 0 ? 'Any' : value}
-          </span>
-        </div>
+        <span className="text-base font-medium min-w-[2ch] text-center">
+          {value === 0 ? 'Cualquiera' : value}
+        </span>
         <Button
           type="button"
           variant="outline"
           size="icon"
-          className="h-8 w-8 rounded-l-none"
+          className="rounded-full h-8 w-8 shrink-0"
           onClick={increment}
           disabled={value >= max}
         >
-          <Plus size={16} />
-          <span className="sr-only">Increase {label}</span>
+          <Plus size={14} />
+          <span className="sr-only">Aumentar</span>
         </Button>
       </div>
     </div>
