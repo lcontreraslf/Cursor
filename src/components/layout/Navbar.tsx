@@ -9,6 +9,8 @@ import {
   MagnifyingGlass,
   User,
   UploadSimple,
+  Buildings,
+  Users,
 } from '@phosphor-icons/react';
 import { Button } from '../ui/button';
 import ModeToggle from '../ui/mode-toggle';
@@ -32,18 +34,18 @@ const Navbar: React.FC = () => {
       to: '/properties?listingType=sale',
       label: 'Comprar',
       key: 'sale',
-      icon: <HouseSimple className="w-5 h-5" />,
+      icon: <Buildings className="w-5 h-5" />,
     },
     {
       to: '/properties?listingType=rent',
       label: 'Arrendar',
       key: 'rent',
-      icon: <MagnifyingGlass className="w-5 h-5" />,
+      icon: <HouseSimple className="w-5 h-5" />,
     },
     {
       to: '/agents',
       label: 'Agentes',
-      icon: <User className="w-5 h-5" />,
+      icon: <Users className="w-5 h-5" />,
     },
   ];
 
@@ -62,17 +64,17 @@ const Navbar: React.FC = () => {
 
           {/* Navegación centrada en desktop */}
           <div className="hidden md:flex flex-1 justify-center">
-            <nav className="flex items-center space-x-6 text-base font-medium">
+            <nav className="flex items-center space-x-8 text-base font-medium">
               {navItems.map(({ to, label, key, icon }) => (
                 <NavLink
                   key={to}
                   to={to}
                   className={() => {
                     const isCurrentActive = (key && isActiveTab(key)) || isActivePath(to);
-                    return `capitalize flex items-center gap-2 relative px-2 pb-1 transition-colors hover:text-foreground/80 ${
+                    return `capitalize flex items-center gap-2 relative px-3 py-2 transition-all duration-200 hover:text-foreground/80 ${
                       isCurrentActive
-                        ? 'text-foreground after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-primary'
-                        : 'text-foreground/60'
+                        ? 'text-foreground after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:bg-primary after:transition-all after:duration-300'
+                        : 'text-foreground/60 hover:text-foreground/80'
                     }`;
                   }}
                 >
@@ -84,10 +86,10 @@ const Navbar: React.FC = () => {
           </div>
 
           {/* Lado derecho */}
-          <div className="flex items-center space-x-2 ml-auto">
+          <div className="flex items-center space-x-3 ml-auto">
             <Button
               onClick={() => navigate('/publish')}
-              className="bg-blue-600 text-white hover:bg-blue-700 hidden md:flex"
+              className="bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 hidden md:flex shadow-lg hover:shadow-xl transition-all duration-200"
             >
               <UploadSimple className="w-5 h-5 mr-2" />
               Publicar
@@ -100,9 +102,9 @@ const Navbar: React.FC = () => {
 
             <ModeToggle />
 
-            <Button variant="default" className="ml-2 hidden md:flex">
+            <Button variant="outline" className="ml-2 hidden md:flex border-2 hover:bg-foreground hover:text-background transition-all duration-200">
               <User className="mr-2 h-4 w-4" />
-              Iniciar sesión
+              Acceder
             </Button>
 
             <Button
@@ -139,8 +141,8 @@ const Navbar: React.FC = () => {
                 onClick={closeMenu}
                 className={() => {
                   const isCurrentActive = (key && isActiveTab(key)) || isActivePath(to);
-                  return `capitalize flex items-center gap-3 py-2 text-base font-medium transition-colors hover:text-foreground/80 ${
-                    isCurrentActive ? 'text-foreground' : 'text-foreground/60'
+                  return `capitalize flex items-center gap-3 py-3 text-base font-medium transition-colors hover:text-foreground/80 rounded-lg px-3 ${
+                    isCurrentActive ? 'text-foreground bg-foreground/5' : 'text-foreground/60'
                   }`;
                 }}
               >
@@ -154,15 +156,15 @@ const Navbar: React.FC = () => {
                 closeMenu();
                 navigate('/publish');
               }}
-              className="w-full bg-blue-600 text-white hover:bg-blue-700"
+              className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 shadow-lg"
             >
               <UploadSimple className="w-5 h-5 mr-2" />
               Publicar
             </Button>
 
-            <Button variant="default" className="mt-4 w-full">
+            <Button variant="outline" className="mt-4 w-full border-2">
               <User className="mr-2 h-4 w-4" />
-              Iniciar sesión
+              Acceder
             </Button>
           </div>
         </div>

@@ -1,5 +1,5 @@
 // src/pages/HomePage.tsx
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import HeroSearch from "../components/ui/hero-search";
 import PropertyCard from "../components/ui/property-card";
@@ -10,32 +10,27 @@ import { type Property } from "../types";
 import { Buildings } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
 
-const shuffle = (arr: Property[]) => [...arr].sort(() => Math.random() - 0.5);
+// Función para desordenar el array
+const shuffle = (array: Property[]) => {
+  let currentIndex = array.length, randomIndex;
+  while (currentIndex !== 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+  }
+  return array;
+};
 
 const HomePage: React.FC = () => {
   const [featuredProperties, setFeaturedProperties] = useState<Property[]>([]);
-  const gridRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const all = shuffle(getFeaturedProperties()); // 🔁 Mezcla propiedades destacadas
-
-    const updateVisibleProperties = () => {
-      const grid = gridRef.current;
-      if (!grid) return;
-
-      const style = window.getComputedStyle(grid);
-      const templateColumns = style.getPropertyValue("grid-template-columns");
-      const columnCount = templateColumns.split(" ").length;
-
-      const max = columnCount * 2;
-      setFeaturedProperties(all.slice(0, max));
-    };
-
-    updateVisibleProperties();
-    window.addEventListener("resize", updateVisibleProperties);
-
-    return () => window.removeEventListener("resize", updateVisibleProperties);
+    const allFeatured = getFeaturedProperties();
+    setFeaturedProperties(shuffle(allFeatured)); // Aplicamos el shuffle
   }, []);
+
+  // Tomamos solo las primeras 8 para mostrar
+  const propertiesToShow = featuredProperties.slice(0, 8);
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -65,12 +60,10 @@ const HomePage: React.FC = () => {
             </div>
 
             <div
-              ref={gridRef}
-              className="grid gap-6"
-              style={{ gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))" }}
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
             >
-              {featuredProperties.length > 0 ? (
-                featuredProperties.map((property) => (
+              {propertiesToShow.length > 0 ? (
+                propertiesToShow.map((property) => (
                   <motion.div
                     key={property.id}
                     variants={itemVariants}
@@ -93,14 +86,13 @@ const HomePage: React.FC = () => {
                 </div>
               )}
             </div>
-
-            <div className="mt-8 text-center">
+            
+            <div className="mt-12 text-center">
               <Link to="/featured-properties">
-                <Button size="lg" className="mx-auto">
-                  Ver todas las propiedades destacadas
-                </Button>
+                <Button size="lg">Ver Todas las Propiedades Destacadas</Button>
               </Link>
             </div>
+
           </div>
         </section>
 

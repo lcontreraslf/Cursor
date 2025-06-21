@@ -51,23 +51,20 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
   return (
     <div
       className={cn(
-        "group rounded-2xl shadow-md hover:shadow-lg transition-all bg-white dark:bg-zinc-900 overflow-hidden cursor-pointer",
+        "group rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 bg-white dark:bg-zinc-900 overflow-hidden cursor-pointer flex flex-col",
         className
       )}
       onClick={onClick}
     >
-      <div className="relative w-full aspect-square overflow-hidden">
+      <div className="relative w-full aspect-[4/3] overflow-hidden">
         <img
           src={imageUrl}
           alt={property.title}
-          loading="lazy"
-          className="w-full h-full object-cover rounded-2xl transition-opacity duration-300"
+          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
         />
-
-        {/* Badge */}
         <Badge
           className={cn(
-            "absolute top-3 left-3 px-2 py-1 text-xs font-semibold uppercase tracking-wide shadow-md",
+            "absolute top-2 left-2 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider shadow",
             property.listingType === "sale"
               ? "bg-blue-600 text-white"
               : "bg-emerald-600 text-white"
@@ -75,66 +72,40 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
         >
           {property.listingType === "sale" ? "En Venta" : "En Arriendo"}
         </Badge>
-
-        {/* Favorito */}
         <button
           onClick={handleFavoriteClick}
-          className="absolute top-3 right-3 p-1.5 rounded-full bg-white/80 backdrop-blur-sm hover:bg-white transition-all"
+          className="absolute top-2 right-2 p-1.5 rounded-full bg-white/70 backdrop-blur-sm hover:bg-white transition-colors"
         >
           <Heart
-            size={18}
+            size={16}
             weight={isFavorite ? "fill" : "regular"}
-            className={cn(
-              "transition-colors stroke-2",
-              isFavorite ? "text-red-500" : "text-gray-600"
-            )}
+            className={cn("transition-colors", isFavorite ? "text-red-500" : "text-gray-700")}
           />
         </button>
-
-        {/* Flechas carrusel */}
-        {images.length > 1 && (
-          <>
-            <button
-              onClick={prevImage}
-              className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/80 rounded-full p-1 backdrop-blur-sm hover:bg-white opacity-0 group-hover:opacity-100 transition-opacity"
-            >
-              <CaretLeft size={18} />
-            </button>
-            <button
-              onClick={nextImage}
-              className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/80 rounded-full p-1 backdrop-blur-sm hover:bg-white opacity-0 group-hover:opacity-100 transition-opacity"
-            >
-              <CaretRight size={18} />
-            </button>
-          </>
-        )}
-
       </div>
 
-      <CardContent className="p-4 flex flex-col gap-1.5">
-        <h3 className="font-semibold text-sm text-foreground line-clamp-2">
+      <CardContent className="p-3 flex flex-col flex-grow">
+        <h3 className="font-semibold text-sm text-foreground mb-1 line-clamp-1">
           {property.title}
         </h3>
-
-        <div className="text-base font-bold text-neutral-800">
+        <div className="text-lg font-bold text-neutral-800 dark:text-neutral-200">
           ${property.price.toLocaleString()}
           {property.listingType === "rent" && (
             <span className="text-xs font-normal text-muted-foreground"> /mes</span>
           )}
         </div>
-
-        <div className="flex gap-3 text-xs text-muted-foreground">
-          <div className="flex items-center gap-1.5">
+        <div className="mt-auto pt-2 flex gap-3 text-xs text-muted-foreground border-t border-gray-100 dark:border-zinc-800">
+          <div className="flex items-center gap-1">
             <Bed size={14} />
-            {property.features.bedrooms}
+            <span>{property.features.bedrooms}</span>
           </div>
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1">
             <Bathtub size={14} />
-            {property.features.bathrooms}
+            <span>{property.features.bathrooms}</span>
           </div>
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1">
             <Ruler size={14} />
-            {property.features.area} m²
+            <span>{property.features.area} m²</span>
           </div>
         </div>
       </CardContent>

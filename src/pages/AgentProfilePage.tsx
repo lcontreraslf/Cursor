@@ -1,96 +1,76 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getAgentById, getPropertiesByAgent } from '../data/properties';
 import { Property, Agent } from '../types';
 import PropertyCard from '../components/ui/property-card';
-import { Container } from '../components/ui/container';
 import { Envelope, Phone } from '@phosphor-icons/react';
 
 const AgentProfilePage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [agent, setAgent] = useState<Agent | null>(null);
-  const [propertiesSale, setPropertiesSale] = useState<Property[]>([]);
-  const [propertiesRent, setPropertiesRent] = useState<Property[]>([]);
-  const saleGridRef = useRef<HTMLDivElement>(null);
-  const rentGridRef = useRef<HTMLDivElement>(null);
+  const [properties, setProperties] = useState<Property[]>([]);
 
   useEffect(() => {
     if (id) {
-      const foundAgent = getAgentById(id);
+      const foundAgent = getAgentById(id) || null;
       setAgent(foundAgent);
-
-      const allProps = getPropertiesByAgent(id);
-      const sale = allProps.filter(p => p.listingType === 'sale');
-      const rent = allProps.filter(p => p.listingType === 'rent');
-
-      const getVisibleItems = (ref: React.RefObject<HTMLDivElement>, list: Property[]) => {
-        const grid = ref.current;
-        if (!grid) return [];
-        const computed = window.getComputedStyle(grid);
-        const columnCount = computed.getPropertyValue('grid-template-columns').split(' ').length;
-        return list.slice(0, columnCount); // una fila visible
-      };
-
-      const updateGrids = () => {
-        setPropertiesSale(getVisibleItems(saleGridRef, sale));
-        setPropertiesRent(getVisibleItems(rentGridRef, rent));
-      };
-
-      setTimeout(updateGrids, 50);
-      window.addEventListener('resize', updateGrids);
-      return () => window.removeEventListener('resize', updateGrids);
+      if (foundAgent) {
+        const agentProperties = getPropertiesByAgent(foundAgent.id);
+        setProperties(agentProperties);
+      }
     }
   }, [id]);
 
-  if (!agent) return <div className="p-10 text-center">Agente no encontrado.</div>;
+  if (!agent) {
+    return <div>Agente no encontrado</div>;
+  }
+
+  const propertiesSale = properties.filter(p => p.listingType === 'sale');
+  const propertiesRent = properties.filter(p => p.listingType === 'rent');
+
+  const Section = ({ title, properties }: { title: string; properties: Property[] }) => {
+    if (properties.length === 0) return null;
+
+    return (
+      <div className="mb-12">
+        <h2 className="text-2xl font-bold mb-6">{title}</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+          {properties.map(property => (
+            <PropertyCard
+              key={property.id}
+              property={property}
+            />
+          ))}
+        </div>
+      </div>
+    );
+  };
 
   return (
-    <Container className="py-12">
-      {/* Perfil del Agente */}
-      <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mb-10">
-        <img
-          src={agent.photo}
-          alt={agent.name}
-          className="w-28 h-28 rounded-full object-cover border border-border"
-        />
-        <div>
-          <h1 className="text-3xl font-bold mb-1">{agent.name}</h1>
-          <p className="text-muted-foreground mb-2">{agent.description}</p>
-          <div className="flex flex-col sm:flex-row gap-3 text-sm text-muted-foreground">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="flex flex-col md:flex-row items-start gap-8 mb-12">
+        <div className="flex-shrink-0">
+          <img src={agent.photo} alt={agent.name} className="w-24 h-24 rounded-full object-cover" />
+        </div>
+        <div className="flex-1">
+          <h1 className="text-3xl font-bold">{agent.name}</h1>
+          <p className="text-muted-foreground mt-2">{agent.description}</p>
+          <div className="flex items-center gap-4 mt-4 text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
-              <Envelope size={32} /> {agent.email}
+              <Envelope />
+              <span>{agent.email}</span>
             </div>
             <div className="flex items-center gap-2">
-              <Phone size={16} /> {agent.phone}
+              <Phone />
+              <span>{agent.phone}</span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Propiedades en Venta */}
-      <h2 className="text-2xl font-semibold mb-4">Propiedades en Venta</h2>
-      <div
-        ref={saleGridRef}
-        className="grid gap-6 mb-12"
-        style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', display: 'grid' }}
-      >
-        {propertiesSale.map(property => (
-          <PropertyCard key={property.id} property={property} />
-        ))}
-      </div>
-
-      {/* Propiedades en Arriendo */}
-      <h2 className="text-2xl font-semibold mb-4">Propiedades en Arriendo</h2>
-      <div
-        ref={rentGridRef}
-        className="grid gap-6"
-        style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', display: 'grid' }}
-      >
-        {propertiesRent.map(property => (
-          <PropertyCard key={property.id} property={property} />
-        ))}
-      </div>
-    </Container>
+      <Section title="Propiedades en Venta" properties={propertiesSale} />
+      <Section title="Propiedades en Arriendo" properties={propertiesRent} />
+    </div>
   );
 };
 

@@ -27,7 +27,7 @@ function App() {
     <div className="flex flex-col min-h-screen">
       <ScrollToTop />
       <Navbar />
-      <main className="flex-grow">
+      <main className="flex-grow w-full">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/properties" element={<PropertiesPage />} />

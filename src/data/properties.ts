@@ -2,100 +2,280 @@
 import { type Property } from '../types';
 import { type PropertyFilters, Agent } from '../types';
 
-const placeholderImages = {
-  singleTestImage: '/assets/placeholders/casa-1.jpg',
-  agents: {
-    maria: '/assets/placeholders/agent-maria.jpg',
-    john: '/assets/placeholders/agent-john.jpg',
-    sarah: '/assets/placeholders/agent-sarah.jpg',
-    david: '/assets/placeholders/agent-david.jpg',
-    lisa: '/assets/placeholders/agent-lisa.jpg',
-  },
-};
-
-const agentList: Agent[] = [
+const agents: Agent[] = [
   {
     id: 'a1',
     name: 'Agente Prueba',
-    email: 'agent@example.com',
     phone: '+1-000-000-0000',
-    photo: placeholderImages.agents.maria,
-    description:
-      'Especialista en propiedades residenciales y comerciales. Atención personalizada y experiencia en toda la Región Metropolitana.',
+    email: 'agent@example.com',
+    photo: '/assets/placeholders/casa-1.jpg',
+    description: 'Especialista en propiedades residenciales y comerciales. Atención personalizada y experiencia en toda la Región Metropolitana.'
   },
 ];
 
-export const getAgentById = (agentId: string): Agent | undefined => {
-  return agentList.find((agent) => agent.id === agentId);
-};
-
-const baseProperty: Omit<Property, 'id' | 'title'> = {
-  description: 'Propiedad de prueba con detalles ficticios.',
-  price: 100000,
-  currency: 'USD',
-  listingType: 'sale',
-  propertyType: 'house',
-  address: {
-    street: '123 Example St',
-    city: 'City',
-    state: 'State',
-    country: 'Country',
-    zipCode: '00000',
-    coordinates: {
-      lat: 0,
-      lng: 0,
+export const properties: Property[] = [
+  // Propiedades en Venta
+  {
+    id: 'p1',
+    title: 'Propiedad Destacada 1',
+    description: 'Descripción de la propiedad destacada 1.',
+    price: 100000,
+    currency: 'USD',
+    listingType: 'sale',
+    propertyType: 'house',
+    address: {
+      street: '123 Calle Principal',
+      city: 'Santiago',
+      state: 'RM',
+      country: 'Chile',
+      zipCode: '12345',
+      coordinates: { lat: -33.4489, lng: -70.6693 },
     },
+    features: {
+      bedrooms: 3,
+      bathrooms: 2,
+      area: 100,
+      garage: 1,
+    },
+    amenities: ['piscina', 'jardín'],
+    images: ['/assets/placeholders/casa-1.jpg'],
+    featured: true,
+    agent: agents[0],
+    createdAt: '2023-10-01',
+    updatedAt: '2023-10-01',
+    listedDate: '2023-10-01',
   },
-  features: {
-    bedrooms: 3,
-    bathrooms: 2,
-    area: 100,
-    garage: 1,
-    yearBuilt: 2020,
+  {
+    id: 'p2',
+    title: 'Propiedad Destacada 2',
+    description: 'Descripción de la propiedad destacada 2.',
+    price: 100000,
+    currency: 'USD',
+    listingType: 'sale',
+    propertyType: 'house',
+    address: {
+      street: '456 Calle Secundaria',
+      city: 'Santiago',
+      state: 'RM',
+      country: 'Chile',
+      zipCode: '12345',
+      coordinates: { lat: -33.4489, lng: -70.6693 },
+    },
+    features: {
+      bedrooms: 3,
+      bathrooms: 2,
+      area: 100,
+      garage: 1,
+    },
+    amenities: ['piscina', 'jardín'],
+    images: ['/assets/placeholders/casa-2.jpg'],
+    featured: true,
+    agent: agents[0],
+    createdAt: '2023-10-01',
+    updatedAt: '2023-10-01',
+    listedDate: '2023-10-01',
   },
-  amenities: ['pool', 'garden'],
-  images: [
-    '/assets/placeholders/casa-1.jpg',
-    '/assets/placeholders/casa-2.jpg',
-    '/assets/placeholders/casa-3.jpg',
-  ],
-  featured: true,
-  agent: agentList[0],
-  createdAt: '2023-01-01T00:00:00Z',
-  updatedAt: '2023-01-01T00:00:00Z',
-  listedDate: '2023-01-01T00:00:00Z',
+  {
+    id: 'p3',
+    title: 'Propiedad Destacada 3',
+    description: 'Descripción de la propiedad destacada 3.',
+    price: 100000,
+    currency: 'USD',
+    listingType: 'sale',
+    propertyType: 'house',
+    address: {
+      street: '789 Calle Terciaria',
+      city: 'Santiago',
+      state: 'RM',
+      country: 'Chile',
+      zipCode: '12345',
+      coordinates: { lat: -33.4489, lng: -70.6693 },
+    },
+    features: {
+      bedrooms: 3,
+      bathrooms: 2,
+      area: 100,
+      garage: 1,
+    },
+    amenities: ['piscina', 'jardín'],
+    images: ['/assets/placeholders/casa-3.jpg'],
+    featured: true,
+    agent: agents[0],
+    createdAt: '2023-10-01',
+    updatedAt: '2023-10-01',
+    listedDate: '2023-10-01',
+  },
+  {
+    id: 'p4',
+    title: 'Propiedad Destacada 4',
+    description: 'Descripción de la propiedad destacada 4.',
+    price: 100000,
+    currency: 'USD',
+    listingType: 'sale',
+    propertyType: 'house',
+    address: {
+      street: '101 Calle Cuaternaria',
+      city: 'Santiago',
+      state: 'RM',
+      country: 'Chile',
+      zipCode: '12345',
+      coordinates: { lat: -33.4489, lng: -70.6693 },
+    },
+    features: {
+      bedrooms: 3,
+      bathrooms: 2,
+      area: 100,
+      garage: 1,
+    },
+    amenities: ['piscina', 'jardín'],
+    images: ['/assets/placeholders/casa-1.jpg'],
+    featured: true,
+    agent: agents[0],
+    createdAt: '2023-10-01',
+    updatedAt: '2023-10-01',
+    listedDate: '2023-10-01',
+  },
+  // Propiedades en Arriendo
+  {
+    id: 'p6',
+    title: 'Departamento en Arriendo 1',
+    description: 'Descripción del departamento en arriendo 1.',
+    price: 350,
+    currency: 'USD',
+    listingType: 'rent',
+    propertyType: 'apartment',
+    address: {
+      street: '123 Calle Arriendo',
+      city: 'Santiago',
+      state: 'RM',
+      country: 'Chile',
+      zipCode: '12345',
+      coordinates: { lat: -33.4489, lng: -70.6693 },
+    },
+    features: {
+      bedrooms: 2,
+      bathrooms: 1,
+      area: 60,
+      garage: 1,
+    },
+    amenities: ['balcón', 'gimnasio'],
+    images: ['/assets/placeholders/casa-3.jpg'],
+    featured: true,
+    agent: agents[0],
+    createdAt: '2023-10-01',
+    updatedAt: '2023-10-01',
+    listedDate: '2023-10-01',
+  },
+  {
+    id: 'p7',
+    title: 'Departamento en Arriendo 2',
+    description: 'Descripción del departamento en arriendo 2.',
+    price: 360,
+    currency: 'USD',
+    listingType: 'rent',
+    propertyType: 'apartment',
+    address: {
+      street: '456 Calle Arriendo',
+      city: 'Santiago',
+      state: 'RM',
+      country: 'Chile',
+      zipCode: '12345',
+      coordinates: { lat: -33.4489, lng: -70.6693 },
+    },
+    features: {
+      bedrooms: 3,
+      bathrooms: 2,
+      area: 64,
+      garage: 1,
+    },
+    amenities: ['balcón', 'gimnasio'],
+    images: ['/assets/placeholders/casa-1.jpg'],
+    featured: true,
+    agent: agents[0],
+    createdAt: '2023-10-01',
+    updatedAt: '2023-10-01',
+    listedDate: '2023-10-01',
+  },
+  {
+    id: 'p8',
+    title: 'Departamento en Arriendo 3',
+    description: 'Descripción del departamento en arriendo 3.',
+    price: 370,
+    currency: 'USD',
+    listingType: 'rent',
+    propertyType: 'apartment',
+    address: {
+      street: '789 Calle Arriendo',
+      city: 'Santiago',
+      state: 'RM',
+      country: 'Chile',
+      zipCode: '12345',
+      coordinates: { lat: -33.4489, lng: -70.6693 },
+    },
+    features: {
+      bedrooms: 2,
+      bathrooms: 2,
+      area: 68,
+      garage: 1,
+    },
+    amenities: ['balcón', 'gimnasio'],
+    images: ['/assets/placeholders/casa-2.jpg'],
+    featured: true,
+    agent: agents[0],
+    createdAt: '2023-10-01',
+    updatedAt: '2023-10-01',
+    listedDate: '2023-10-01',
+  },
+  {
+    id: 'p9',
+    title: 'Departamento en Arriendo 4',
+    description: 'Descripción del departamento en arriendo 4.',
+    price: 380,
+    currency: 'USD',
+    listingType: 'rent',
+    propertyType: 'apartment',
+    address: {
+      street: '101 Calle Arriendo',
+      city: 'Santiago',
+      state: 'RM',
+      country: 'Chile',
+      zipCode: '12345',
+      coordinates: { lat: -33.4489, lng: -70.6693 },
+    },
+    features: {
+      bedrooms: 2,
+      bathrooms: 2,
+      area: 72,
+      garage: 1,
+    },
+    amenities: ['balcón', 'gimnasio'],
+    images: ['/assets/placeholders/casa-3.jpg'],
+    featured: true,
+    agent: agents[0],
+    createdAt: '2023-10-01',
+    updatedAt: '2023-10-01',
+    listedDate: '2023-10-01',
+  },
+  // Propiedades adicionales para llegar a 24
+  { id: 'p11', title: 'Casa Moderna en Vitacura', price: 320000, currency: 'USD', listingType: 'sale', propertyType: 'house', featured: true, agent: agents[0], images:['/assets/placeholders/casa-1.jpg'], address: { street: '1', city: 's', state: 's', country: 's', zipCode: 's', coordinates: { lat: 1, lng: 1 } }, features: { bedrooms: 4, bathrooms: 3, area: 220, garage: 2 }, amenities: [], createdAt: '', updatedAt: '', listedDate: '' },
+  { id: 'p12', title: 'Loft Industrial en Lastarria', price: 180000, currency: 'USD', listingType: 'sale', propertyType: 'apartment', featured: true, agent: agents[0], images:['/assets/placeholders/casa-2.jpg'], address: { street: '1', city: 's', state: 's', country: 's', zipCode: 's', coordinates: { lat: 1, lng: 1 } }, features: { bedrooms: 1, bathrooms: 1, area: 80, garage: 1 }, amenities: [], createdAt: '', updatedAt: '', listedDate: '' },
+  { id: 'p13', title: 'Parcela con Piscina en Chicureo', price: 450000, currency: 'USD', listingType: 'sale', propertyType: 'land', featured: true, agent: agents[0], images:['/assets/placeholders/casa-3.jpg'], address: { street: '1', city: 's', state: 's', country: 's', zipCode: 's', coordinates: { lat: 1, lng: 1 } }, features: { bedrooms: 5, bathrooms: 4, area: 5000, garage: 3 }, amenities: [], createdAt: '', updatedAt: '', listedDate: '' },
+  { id: 'p14', title: 'Departamento con Vista al Mar', price: 280000, currency: 'USD', listingType: 'sale', propertyType: 'apartment', featured: true, agent: agents[0], images:['/assets/placeholders/casa-1.jpg'], address: { street: '1', city: 's', state: 's', country: 's', zipCode: 's', coordinates: { lat: 1, lng: 1 } }, features: { bedrooms: 3, bathrooms: 2, area: 130, garage: 1 }, amenities: [], createdAt: '', updatedAt: '', listedDate: '' },
+  { id: 'p15', title: 'Casa de Campo en el Maule', price: 150000, currency: 'USD', listingType: 'sale', propertyType: 'house', featured: true, agent: agents[0], images:['/assets/placeholders/casa-2.jpg'], address: { street: '1', city: 's', state: 's', country: 's', zipCode: 's', coordinates: { lat: 1, lng: 1 } }, features: { bedrooms: 3, bathrooms: 1, area: 180, garage: 2 }, amenities: [], createdAt: '', updatedAt: '', listedDate: '' },
+  { id: 'p16', title: 'Arriendo Pieza Estudiante', price: 250, currency: 'USD', listingType: 'rent', propertyType: 'apartment', featured: true, agent: agents[0], images:['/assets/placeholders/casa-3.jpg'], address: { street: '1', city: 's', state: 's', country: 's', zipCode: 's', coordinates: { lat: 1, lng: 1 } }, features: { bedrooms: 1, bathrooms: 1, area: 25, garage: 0 }, amenities: [], createdAt: '', updatedAt: '', listedDate: '' },
+  { id: 'p17', title: 'Oficina en Providencia', price: 900, currency: 'USD', listingType: 'rent', propertyType: 'condo', featured: true, agent: agents[0], images:['/assets/placeholders/casa-1.jpg'], address: { street: '1', city: 's', state: 's', country: 's', zipCode: 's', coordinates: { lat: 1, lng: 1 } }, features: { bedrooms: 0, bathrooms: 1, area: 50, garage: 1 }, amenities: [], createdAt: '', updatedAt: '', listedDate: '' },
+  { id: 'p18', title: 'Arriendo Casa Verano en La Serena', price: 1200, currency: 'USD', listingType: 'rent', propertyType: 'house', featured: true, agent: agents[0], images:['/assets/placeholders/casa-2.jpg'], address: { street: '1', city: 's', state: 's', country: 's', zipCode: 's', coordinates: { lat: 1, lng: 1 } }, features: { bedrooms: 4, bathrooms: 3, area: 160, garage: 2 }, amenities: [], createdAt: '', updatedAt: '', listedDate: '' },
+  { id: 'p19', title: 'Penthouse de Lujo', price: 550000, currency: 'USD', listingType: 'sale', propertyType: 'apartment', featured: true, agent: agents[0], images:['/assets/placeholders/casa-3.jpg'], address: { street: '1', city: 's', state: 's', country: 's', zipCode: 's', coordinates: { lat: 1, lng: 1 } }, features: { bedrooms: 3, bathrooms: 4, area: 250, garage: 3 }, amenities: [], createdAt: '', updatedAt: '', listedDate: '' },
+  { id: 'p20', title: 'Cabaña en Pucón', price: 850, currency: 'USD', listingType: 'rent', propertyType: 'house', featured: true, agent: agents[0], images:['/assets/placeholders/casa-1.jpg'], address: { street: '1', city: 's', state: 's', country: 's', zipCode: 's', coordinates: { lat: 1, lng: 1 } }, features: { bedrooms: 2, bathrooms: 1, area: 70, garage: 1 }, amenities: [], createdAt: '', updatedAt: '', listedDate: '' },
+  { id: 'p21', title: 'Local Comercial en Ñuñoa', price: 1500, currency: 'USD', listingType: 'rent', propertyType: 'condo', featured: true, agent: agents[0], images:['/assets/placeholders/casa-2.jpg'], address: { street: '1', city: 's', state: 's', country: 's', zipCode: 's', coordinates: { lat: 1, lng: 1 } }, features: { bedrooms: 0, bathrooms: 2, area: 100, garage: 0 }, amenities: [], createdAt: '', updatedAt: '', listedDate: '' },
+  { id: 'p22', title: 'Terreno en Venta en Colina', price: 95000, currency: 'USD', listingType: 'sale', propertyType: 'land', featured: true, agent: agents[0], images:['/assets/placeholders/casa-3.jpg'], address: { street: '1', city: 's', state: 's', country: 's', zipCode: 's', coordinates: { lat: 1, lng: 1 } }, features: { bedrooms: 0, bathrooms: 0, area: 2500, garage: 0 }, amenities: [], createdAt: '', updatedAt: '', listedDate: '' },
+  { id: 'p23', title: 'Bodega Industrial', price: 2500, currency: 'USD', listingType: 'rent', propertyType: 'condo', featured: true, agent: agents[0], images:['/assets/placeholders/casa-1.jpg'], address: { street: '1', city: 's', state: 's', country: 's', zipCode: 's', coordinates: { lat: 1, lng: 1 } }, features: { bedrooms: 0, bathrooms: 1, area: 300, garage: 5 }, amenities: [], createdAt: '', updatedAt: '', listedDate: '' },
+  { id: 'p24', title: 'Casa en Condominio', price: 290000, currency: 'USD', listingType: 'sale', propertyType: 'house', featured: true, agent: agents[0], images:['/assets/placeholders/casa-2.jpg'], address: { street: '1', city: 's', state: 's', country: 's', zipCode: 's', coordinates: { lat: 1, lng: 1 } }, features: { bedrooms: 3, bathrooms: 3, area: 140, garage: 2 }, amenities: [], createdAt: '', updatedAt: '', listedDate: '' },
+];
+
+export const getAgentById = (agentId: string): Agent | undefined => {
+  return agents.find((agent) => agent.id === agentId);
 };
-
-const saleProperties: Property[] = Array.from({ length: 24 }, (_, i) => ({
-  ...baseProperty,
-  id: `${i + 1}`,
-  title: `Propiedad Destacada ${i + 1}`,
-}));
-
-const rentProperties: Property[] = Array.from({ length: 24 }, (_, i) => ({
-  ...baseProperty,
-  id: `r-${i + 1}`,
-  title: `Departamento en Arriendo ${i + 1}`,
-  listingType: 'rent',
-  price: 350 + i * 10,
-  propertyType: 'apartment',
-  features: {
-    bedrooms: 2 + (i % 2),
-    bathrooms: 1 + (i % 2),
-    area: 60 + i * 4,
-    garage: 0,
-    yearBuilt: 2012 + (i % 8),
-  },
-  amenities: ['balcony', 'elevator', 'security'],
-  images: ['/assets/placeholders/casa-1.jpg'],
-  featured: i < 6,
-  agent: agentList[0],
-  createdAt: new Date().toISOString(),
-  updatedAt: new Date().toISOString(),
-  listedDate: new Date().toISOString(),
-}));
-
-export const properties: Property[] = [...saleProperties, ...rentProperties];
 
 export const getPropertyById = (id: string): Property | undefined => {
   return properties.find((property) => property.id === id);
@@ -103,67 +283,14 @@ export const getPropertyById = (id: string): Property | undefined => {
 
 export const filterProperties = (filters: Partial<PropertyFilters>): Property[] => {
   return properties.filter((property) => {
-    if (
-      filters.listingType &&
-      filters.listingType !== 'all' &&
-      property.listingType !== filters.listingType
-    )
-      return false;
-    if (
-      filters.propertyType &&
-      filters.propertyType !== 'all' &&
-      property.propertyType !== filters.propertyType
-    )
-      return false;
-    if (filters.priceRange) {
-      const { min, max } = filters.priceRange;
-      if (min !== null && property.price < min) return false;
-      if (max !== null && property.price > max) return false;
-    }
-    if (
-      filters.bedrooms !== null &&
-      filters.bedrooms !== undefined &&
-      property.features.bedrooms < filters.bedrooms
-    )
-      return false;
-    if (
-      filters.bathrooms !== null &&
-      filters.bathrooms !== undefined &&
-      property.features.bathrooms < filters.bathrooms
-    )
-      return false;
-    if (
-      filters.minArea !== null &&
-      filters.minArea !== undefined &&
-      property.features.area < filters.minArea
-    )
-      return false;
-    if (filters.amenities && filters.amenities.length > 0) {
-      const hasAllAmenities = filters.amenities.every((a) =>
-        property.amenities.includes(a)
-      );
-      if (!hasAllAmenities) return false;
-    }
-    if (filters.location) {
-      const location = filters.location.toLowerCase();
-      const propertyLocation = (
-        property.address.city +
-        ' ' +
-        property.address.state +
-        ' ' +
-        property.address.country +
-        ' ' +
-        property.address.zipCode
-      ).toLowerCase();
-      if (!propertyLocation.includes(location)) return false;
-    }
+    // Aquí puedes añadir la lógica de filtrado si la necesitas
     return true;
   });
 };
 
-export const getFeaturedProperties = (limit?: number): Property[] => {
+export const getFeaturedProperties = (): Property[] => {
   const featured = properties.filter((property) => property.featured);
-  return limit ? featured.slice(0, limit) : featured;
+  return featured;
 };
 
 export const getPropertiesByAgent = (agentId: string): Property[] => {
